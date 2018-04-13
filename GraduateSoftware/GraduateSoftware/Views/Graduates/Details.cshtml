@@ -1,0 +1,99 @@
+﻿@model GraduateSoftware.Models.Graduate
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Graduate</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateLastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateYear)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateYear)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateCompany)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateCompany)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduateMail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduateMail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GraduatePhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GraduatePhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkArea.WorkAreaName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkArea.WorkAreaName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkAreaDetail.WorkAreaDetailName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkAreaDetail.WorkAreaDetailName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

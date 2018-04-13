@@ -1,52 +1,78 @@
-﻿
-@using System.Data.Entity;
-@using System.Linq;
-@using GraduateSoftware.Models;
-@using System.Net;
-
-@model GraduateSoftware.Models.Graduate
+﻿@model IEnumerable<GraduateSoftware.Models.Graduate>
 
 @{
-    ViewBag.Title = "GraduateProfile";
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/css/card.css" rel="stylesheet" />
 
-<h2>GraduateProfile</h2>
 
-@{
-    //FIND THE USER WITH THE ID REQUESTED FROM COOKIES
+<table class="table">
+    <tr>
 
-    GraduateModuleEntities db = new GraduateModuleEntities();
-    string val = "";
-    if (Request.Cookies["user"] != null)
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateYear)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateCompany)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduateMail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GraduatePhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkArea.WorkAreaName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkAreaDetail.WorkAreaDetailName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
     {
-        val = Request.Cookies["user"].Value;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateYear)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateCompany)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduateMail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GraduatePhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkArea.WorkAreaName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkAreaDetail.WorkAreaDetailName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.StudentID })
+            </td>
+        </tr>
     }
-    var currentUser = db.Graduates.Where(x => x.StudentID == val).FirstOrDefault();
 
-}
-
-<div class="wrapper3" style="margin: 0px auto;">
-
-    <a href="">
-        <div class="col " style="float: left;" ontouchstart="this.classList.toggle('hover');" onclick="">
-            <div class="container " style="width: 110%;   margin-left: 61%;">
-                <div id="img" class="front" style="background-image: url('../../Content/Images/bogazici-universitesi-logo-DB83D14A8B-seeklogo.com.png');">
-                    <div class="inner">
-                        <img class="img-circle" src="~/Content/Images/greg_head.png" style="width:50%" />
-                        <p>@currentUser.StudentID</p>
-                        <p>Work Area</p>
-                        <span></span>
-                    </div>
-                </div>
-                <div class="back">
-                    <div class="inner">
-                        <p>This is a description</p>
-                        <p>example@example.com</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
-
-</div>
+</table>

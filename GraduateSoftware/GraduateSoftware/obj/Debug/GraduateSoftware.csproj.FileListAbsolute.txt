@@ -87,3 +87,7 @@ C:\Users\Ibrahim\Desktop\Graduate\GraduateSoftware\GraduateSoftware\obj\Debug\Gr
 C:\Users\Ibrahim\Desktop\Graduate\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.csproj.CopyComplete
 C:\Users\Ibrahim\Desktop\Graduate\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.dll
 C:\Users\Ibrahim\Desktop\Graduate\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.pdb
+C:\Users\Hüseyin\Desktop\OnGoingProjects\GraduateModule\GraduateSoftware\GraduateSoftware\bin\EntityFramework.dll
+C:\Users\Hüseyin\Desktop\OnGoingProjects\GraduateModule\GraduateSoftware\GraduateSoftware\bin\EntityFramework.SqlServer.dll
+C:\Users\Hüseyin\Desktop\OnGoingProjects\GraduateModule\GraduateSoftware\GraduateSoftware\bin\EntityFramework.xml
+C:\Users\Hüseyin\Desktop\OnGoingProjects\GraduateModule\GraduateSoftware\GraduateSoftware\bin\EntityFramework.SqlServer.xml

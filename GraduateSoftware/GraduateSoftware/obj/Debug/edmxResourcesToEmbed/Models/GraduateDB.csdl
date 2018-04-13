@@ -33,7 +33,7 @@
       <PropertyRef Name="StudentID" />
     </Key>
     <Property Name="StudentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="StudentPassword" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="StudentPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="GraduateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="GraduateLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="GraduateYear" Type="Int32" />

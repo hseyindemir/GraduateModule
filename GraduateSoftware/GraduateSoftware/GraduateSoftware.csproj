@@ -151,6 +151,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GraduateController.cs" />
+    <Compile Include="Controllers\GraduatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -200,6 +201,7 @@
       <LastGenOutput>GraduateDB.Context.cs</LastGenOutput>
       <DependentUpon>GraduateDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\GraduateDB.edmx.sql" />
     <Content Include="Models\GraduateDB.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>GraduateDB.edmx</DependentUpon>
@@ -244,6 +246,12 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="scss\style.scss" />
     <Content Include="Views\Graduate\GraduateProfile.cshtml" />
+    <Content Include="Views\Graduates\Create.cshtml" />
+    <Content Include="Views\Graduates\Delete.cshtml" />
+    <Content Include="Views\Graduates\Details.cshtml" />
+    <Content Include="Views\Graduates\Edit.cshtml" />
+    <Content Include="Views\Graduates\Index.cshtml" />
+    <Content Include="Views\Graduate\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
