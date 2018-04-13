@@ -4,12 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Graduates">
           <Key>
             <PropertyRef Name="StudentID" />
           </Key>
           <Property Name="StudentID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudentPassword" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="GraduateName" Type="nvarchar" MaxLength="50" />
           <Property Name="GraduateLastName" Type="nvarchar" MaxLength="50" />
           <Property Name="GraduateYear" Type="int" />
@@ -30,14 +31,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <EntityType Name="WorkArea">
-          <Key>
-            <PropertyRef Name="WAID" />
-          </Key>
-          <Property Name="WAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="WorkAreaName" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="WorkAreaDetail">
+        <EntityType Name="WorkAreaDetails">
           <Key>
             <PropertyRef Name="WADID" />
           </Key>
@@ -45,11 +39,18 @@
           <Property Name="WorkAreaDetailName" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkAreaID" Type="int" />
         </EntityType>
-        <Association Name="FK__Graduates__WorkA__3C69FB99">
-          <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
+        <EntityType Name="WorkAreas">
+          <Key>
+            <PropertyRef Name="WAID" />
+          </Key>
+          <Property Name="WAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkAreaName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK__Graduates__WorkA__286302EC">
+          <End Role="WorkAreas" Type="Self.WorkAreas" Multiplicity="0..1" />
           <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="WorkArea">
+            <Principal Role="WorkAreas">
               <PropertyRef Name="WAID" />
             </Principal>
             <Dependent Role="Graduates">
@@ -57,11 +58,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Graduates__WorkA__3D5E1FD2">
-          <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="0..1" />
+        <Association Name="FK__Graduates__WorkA__29572725">
+          <End Role="WorkAreaDetails" Type="Self.WorkAreaDetails" Multiplicity="0..1" />
           <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="WorkAreaDetail">
+            <Principal Role="WorkAreaDetails">
               <PropertyRef Name="WADID" />
             </Principal>
             <Dependent Role="Graduates">
@@ -70,13 +71,13 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__WorkAreaD__WorkA__398D8EEE">
-          <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
-          <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="*" />
+          <End Role="WorkAreas" Type="Self.WorkAreas" Multiplicity="0..1" />
+          <End Role="WorkAreaDetails" Type="Self.WorkAreaDetails" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="WorkArea">
+            <Principal Role="WorkAreas">
               <PropertyRef Name="WAID" />
             </Principal>
-            <Dependent Role="WorkAreaDetail">
+            <Dependent Role="WorkAreaDetails">
               <PropertyRef Name="WorkAreaID" />
             </Dependent>
           </ReferentialConstraint>
@@ -84,43 +85,25 @@
         <EntityContainer Name="GraduateModuleModelStoreContainer">
           <EntitySet Name="Graduates" EntityType="Self.Graduates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WorkArea" EntityType="Self.WorkArea" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WorkAreaDetail" EntityType="Self.WorkAreaDetail" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Graduates__WorkA__3C69FB99" Association="Self.FK__Graduates__WorkA__3C69FB99">
-            <End Role="WorkArea" EntitySet="WorkArea" />
+          <EntitySet Name="WorkAreaDetails" EntityType="Self.WorkAreaDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkAreas" EntityType="Self.WorkAreas" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Graduates__WorkA__286302EC" Association="Self.FK__Graduates__WorkA__286302EC">
+            <End Role="WorkAreas" EntitySet="WorkAreas" />
             <End Role="Graduates" EntitySet="Graduates" />
           </AssociationSet>
-          <AssociationSet Name="FK__Graduates__WorkA__3D5E1FD2" Association="Self.FK__Graduates__WorkA__3D5E1FD2">
-            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetail" />
+          <AssociationSet Name="FK__Graduates__WorkA__29572725" Association="Self.FK__Graduates__WorkA__29572725">
+            <End Role="WorkAreaDetails" EntitySet="WorkAreaDetails" />
             <End Role="Graduates" EntitySet="Graduates" />
           </AssociationSet>
           <AssociationSet Name="FK__WorkAreaD__WorkA__398D8EEE" Association="Self.FK__WorkAreaD__WorkA__398D8EEE">
-            <End Role="WorkArea" EntitySet="WorkArea" />
-            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetail" />
+            <End Role="WorkAreas" EntitySet="WorkAreas" />
+            <End Role="WorkAreaDetails" EntitySet="WorkAreaDetails" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GraduateModuleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Graduate">
-          <Key>
-            <PropertyRef Name="StudentID" />
-          </Key>
-          <Property Name="StudentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="GraduateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GraduateLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GraduateYear" Type="Int32" />
-          <Property Name="WorkAreaID" Type="Int32" />
-          <Property Name="WorkAreaDetailID" Type="Int32" />
-          <Property Name="GraduateCompany" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GraduateTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GraduateMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GraduatePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="WorkArea" Relationship="Self.FK__Graduates__WorkA__3C69FB99" FromRole="Graduates" ToRole="WorkArea" />
-          <NavigationProperty Name="WorkAreaDetail" Relationship="Self.FK__Graduates__WorkA__3D5E1FD2" FromRole="Graduates" ToRole="WorkAreaDetail" />
-        </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -131,14 +114,41 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="WorkArea">
+        <EntityContainer Name="GraduateModuleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Graduates" EntityType="GraduateModuleModel.Graduate" />
+          <EntitySet Name="WorkAreaDetails" EntityType="GraduateModuleModel.WorkAreaDetail" />
+          <EntitySet Name="WorkAreas" EntityType="GraduateModuleModel.WorkArea" />
+          <AssociationSet Name="FK__Graduates__WorkA__286302EC" Association="GraduateModuleModel.FK__Graduates__WorkA__286302EC">
+            <End Role="WorkArea" EntitySet="WorkAreas" />
+            <End Role="Graduate" EntitySet="Graduates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Graduates__WorkA__29572725" Association="GraduateModuleModel.FK__Graduates__WorkA__29572725">
+            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
+            <End Role="Graduate" EntitySet="Graduates" />
+          </AssociationSet>
+          <AssociationSet Name="FK__WorkAreaD__WorkA__398D8EEE" Association="GraduateModuleModel.FK__WorkAreaD__WorkA__398D8EEE">
+            <End Role="WorkArea" EntitySet="WorkAreas" />
+            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Graduate">
           <Key>
-            <PropertyRef Name="WAID" />
+            <PropertyRef Name="StudentID" />
           </Key>
-          <Property Name="WAID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="WorkAreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Graduates" Relationship="Self.FK__Graduates__WorkA__3C69FB99" FromRole="WorkArea" ToRole="Graduates" />
-          <NavigationProperty Name="WorkAreaDetails" Relationship="Self.FK__WorkAreaD__WorkA__398D8EEE" FromRole="WorkArea" ToRole="WorkAreaDetail" />
+          <Property Name="StudentID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StudentPassword" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GraduateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GraduateLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GraduateYear" Type="Int32" />
+          <Property Name="WorkAreaID" Type="Int32" />
+          <Property Name="WorkAreaDetailID" Type="Int32" />
+          <Property Name="GraduateCompany" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GraduateTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GraduateMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GraduatePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WorkArea" Relationship="GraduateModuleModel.FK__Graduates__WorkA__286302EC" FromRole="Graduate" ToRole="WorkArea" />
+          <NavigationProperty Name="WorkAreaDetail" Relationship="GraduateModuleModel.FK__Graduates__WorkA__29572725" FromRole="Graduate" ToRole="WorkAreaDetail" />
         </EntityType>
         <EntityType Name="WorkAreaDetail">
           <Key>
@@ -147,36 +157,45 @@
           <Property Name="WADID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="WorkAreaDetailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkAreaID" Type="Int32" />
-          <NavigationProperty Name="Graduates" Relationship="Self.FK__Graduates__WorkA__3D5E1FD2" FromRole="WorkAreaDetail" ToRole="Graduates" />
-          <NavigationProperty Name="WorkArea" Relationship="Self.FK__WorkAreaD__WorkA__398D8EEE" FromRole="WorkAreaDetail" ToRole="WorkArea" />
+          <NavigationProperty Name="Graduates" Relationship="GraduateModuleModel.FK__Graduates__WorkA__29572725" FromRole="WorkAreaDetail" ToRole="Graduate" />
+          <NavigationProperty Name="WorkArea" Relationship="GraduateModuleModel.FK__WorkAreaD__WorkA__398D8EEE" FromRole="WorkAreaDetail" ToRole="WorkArea" />
         </EntityType>
-        <Association Name="FK__Graduates__WorkA__3C69FB99">
-          <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
-          <End Role="Graduates" Type="Self.Graduate" Multiplicity="*" />
+        <EntityType Name="WorkArea">
+          <Key>
+            <PropertyRef Name="WAID" />
+          </Key>
+          <Property Name="WAID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkAreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Graduates" Relationship="GraduateModuleModel.FK__Graduates__WorkA__286302EC" FromRole="WorkArea" ToRole="Graduate" />
+          <NavigationProperty Name="WorkAreaDetails" Relationship="GraduateModuleModel.FK__WorkAreaD__WorkA__398D8EEE" FromRole="WorkArea" ToRole="WorkAreaDetail" />
+        </EntityType>
+        <Association Name="FK__Graduates__WorkA__286302EC">
+          <End Type="GraduateModuleModel.WorkArea" Role="WorkArea" Multiplicity="0..1" />
+          <End Type="GraduateModuleModel.Graduate" Role="Graduate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkArea">
               <PropertyRef Name="WAID" />
             </Principal>
-            <Dependent Role="Graduates">
+            <Dependent Role="Graduate">
               <PropertyRef Name="WorkAreaID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Graduates__WorkA__3D5E1FD2">
-          <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="0..1" />
-          <End Role="Graduates" Type="Self.Graduate" Multiplicity="*" />
+        <Association Name="FK__Graduates__WorkA__29572725">
+          <End Type="GraduateModuleModel.WorkAreaDetail" Role="WorkAreaDetail" Multiplicity="0..1" />
+          <End Type="GraduateModuleModel.Graduate" Role="Graduate" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkAreaDetail">
               <PropertyRef Name="WADID" />
             </Principal>
-            <Dependent Role="Graduates">
+            <Dependent Role="Graduate">
               <PropertyRef Name="WorkAreaDetailID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__WorkAreaD__WorkA__398D8EEE">
-          <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
-          <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="*" />
+          <End Type="GraduateModuleModel.WorkArea" Role="WorkArea" Multiplicity="0..1" />
+          <End Type="GraduateModuleModel.WorkAreaDetail" Role="WorkAreaDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="WorkArea">
               <PropertyRef Name="WAID" />
@@ -186,46 +205,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="GraduateModuleEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Graduates" EntityType="Self.Graduate" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="WorkAreas" EntityType="Self.WorkArea" />
-          <EntitySet Name="WorkAreaDetails" EntityType="Self.WorkAreaDetail" />
-          <AssociationSet Name="FK__Graduates__WorkA__3C69FB99" Association="Self.FK__Graduates__WorkA__3C69FB99">
-            <End Role="WorkArea" EntitySet="WorkAreas" />
-            <End Role="Graduates" EntitySet="Graduates" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Graduates__WorkA__3D5E1FD2" Association="Self.FK__Graduates__WorkA__3D5E1FD2">
-            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
-            <End Role="Graduates" EntitySet="Graduates" />
-          </AssociationSet>
-          <AssociationSet Name="FK__WorkAreaD__WorkA__398D8EEE" Association="Self.FK__WorkAreaD__WorkA__398D8EEE">
-            <End Role="WorkArea" EntitySet="WorkAreas" />
-            <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="GraduateModuleModelStoreContainer" CdmEntityContainer="GraduateModuleEntities">
-          <EntitySetMapping Name="Graduates">
-            <EntityTypeMapping TypeName="GraduateModuleModel.Graduate">
-              <MappingFragment StoreEntitySet="Graduates">
-                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
-                <ScalarProperty Name="GraduateName" ColumnName="GraduateName" />
-                <ScalarProperty Name="GraduateLastName" ColumnName="GraduateLastName" />
-                <ScalarProperty Name="GraduateYear" ColumnName="GraduateYear" />
-                <ScalarProperty Name="WorkAreaID" ColumnName="WorkAreaID" />
-                <ScalarProperty Name="WorkAreaDetailID" ColumnName="WorkAreaDetailID" />
-                <ScalarProperty Name="GraduateCompany" ColumnName="GraduateCompany" />
-                <ScalarProperty Name="GraduateTitle" ColumnName="GraduateTitle" />
-                <ScalarProperty Name="GraduateMail" ColumnName="GraduateMail" />
-                <ScalarProperty Name="GraduatePhone" ColumnName="GraduatePhone" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="GraduateModuleModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
@@ -237,24 +222,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WorkAreas">
-            <EntityTypeMapping TypeName="GraduateModuleModel.WorkArea">
-              <MappingFragment StoreEntitySet="WorkArea">
-                <ScalarProperty Name="WAID" ColumnName="WAID" />
-                <ScalarProperty Name="WorkAreaName" ColumnName="WorkAreaName" />
+          <EntitySetMapping Name="Graduates">
+            <EntityTypeMapping TypeName="GraduateModuleModel.Graduate">
+              <MappingFragment StoreEntitySet="Graduates">
+                <ScalarProperty Name="GraduatePhone" ColumnName="GraduatePhone" />
+                <ScalarProperty Name="GraduateMail" ColumnName="GraduateMail" />
+                <ScalarProperty Name="GraduateTitle" ColumnName="GraduateTitle" />
+                <ScalarProperty Name="GraduateCompany" ColumnName="GraduateCompany" />
+                <ScalarProperty Name="WorkAreaDetailID" ColumnName="WorkAreaDetailID" />
+                <ScalarProperty Name="WorkAreaID" ColumnName="WorkAreaID" />
+                <ScalarProperty Name="GraduateYear" ColumnName="GraduateYear" />
+                <ScalarProperty Name="GraduateLastName" ColumnName="GraduateLastName" />
+                <ScalarProperty Name="GraduateName" ColumnName="GraduateName" />
+                <ScalarProperty Name="StudentPassword" ColumnName="StudentPassword" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WorkAreaDetails">
             <EntityTypeMapping TypeName="GraduateModuleModel.WorkAreaDetail">
-              <MappingFragment StoreEntitySet="WorkAreaDetail">
-                <ScalarProperty Name="WADID" ColumnName="WADID" />
-                <ScalarProperty Name="WorkAreaDetailName" ColumnName="WorkAreaDetailName" />
+              <MappingFragment StoreEntitySet="WorkAreaDetails">
                 <ScalarProperty Name="WorkAreaID" ColumnName="WorkAreaID" />
+                <ScalarProperty Name="WorkAreaDetailName" ColumnName="WorkAreaDetailName" />
+                <ScalarProperty Name="WADID" ColumnName="WADID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="WorkAreas">
+            <EntityTypeMapping TypeName="GraduateModuleModel.WorkArea">
+              <MappingFragment StoreEntitySet="WorkAreas">
+                <ScalarProperty Name="WorkAreaName" ColumnName="WorkAreaName" />
+                <ScalarProperty Name="WAID" ColumnName="WAID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -15,6 +15,7 @@ namespace GraduateSoftware.Models
     public partial class Graduate
     {
         public string StudentID { get; set; }
+        public string StudentPassword { get; set; }
         public string GraduateName { get; set; }
         public string GraduateLastName { get; set; }
         public Nullable<int> GraduateYear { get; set; }

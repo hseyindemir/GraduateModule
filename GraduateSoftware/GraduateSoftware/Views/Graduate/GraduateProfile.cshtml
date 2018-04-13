@@ -1,0 +1,52 @@
+﻿
+@using System.Data.Entity;
+@using System.Linq;
+@using GraduateSoftware.Models;
+@using System.Net;
+
+@model GraduateSoftware.Models.Graduate
+
+@{
+    ViewBag.Title = "GraduateProfile";
+}
+<link href="~/css/card.css" rel="stylesheet" />
+
+<h2>GraduateProfile</h2>
+
+@{
+    //FIND THE USER WITH THE ID REQUESTED FROM COOKIES
+
+    GraduateModuleEntities db = new GraduateModuleEntities();
+    string val = "";
+    if (Request.Cookies["user"] != null)
+    {
+        val = Request.Cookies["user"].Value;
+    }
+    var currentUser = db.Graduates.Where(x => x.StudentID == val).FirstOrDefault();
+
+}
+
+<div class="wrapper3" style="margin: 0px auto;">
+
+    <a href="">
+        <div class="col " style="float: left;" ontouchstart="this.classList.toggle('hover');" onclick="">
+            <div class="container " style="width: 110%;   margin-left: 61%;">
+                <div id="img" class="front" style="background-image: url('../../Content/Images/bogazici-universitesi-logo-DB83D14A8B-seeklogo.com.png');">
+                    <div class="inner">
+                        <img class="img-circle" src="~/Content/Images/greg_head.png" style="width:50%" />
+                        <p>@currentUser.StudentID</p>
+                        <p>Work Area</p>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="inner">
+                        <p>This is a description</p>
+                        <p>example@example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </a>
+
+</div>
