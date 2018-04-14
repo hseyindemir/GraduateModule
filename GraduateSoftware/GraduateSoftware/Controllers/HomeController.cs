@@ -32,7 +32,6 @@ namespace GraduateSoftware.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            
             return View();
         }
         
@@ -65,8 +64,11 @@ namespace GraduateSoftware.Controllers
                 if (user != null)
                 {
                     HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
+                    HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
                     UserCookie.Expires.AddDays(7);
+                    UserCookiePass.Expires.AddDays(7);
                     HttpContext.Response.SetCookie(UserCookie);
+                    HttpContext.Response.SetCookie(UserCookiePass);
                     return RedirectToAction("GraduateProfile", "Graduate");
                     
                 }
@@ -79,7 +81,6 @@ namespace GraduateSoftware.Controllers
             
 
         }
-        
 
         public ActionResult About()
         {

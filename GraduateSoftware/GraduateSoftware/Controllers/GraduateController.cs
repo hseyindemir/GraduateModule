@@ -28,12 +28,14 @@ namespace GraduateSoftware.Controllers
             {
                 GraduateModuleEntities db = new GraduateModuleEntities();
                 string val = "";
-                if (Request.Cookies["user"] != null)
+                string valPass = "";
+                if (Request.Cookies["user"] != null && Request.Cookies["pass"] != null)
                 {
                     val = Request.Cookies["user"].Value;
+                    valPass = Request.Cookies["pass"].Value;
                 }
 
-                var graduates = db.Graduates.Where(x => x.StudentID == val);
+                var graduates = db.Graduates.Where(x => x.StudentID == val && x.StudentPassword==valPass);
                 return View(graduates.ToList());
 
             }
@@ -42,7 +44,7 @@ namespace GraduateSoftware.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-
+    
 
         }
 
