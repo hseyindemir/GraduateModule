@@ -34,6 +34,8 @@ namespace GraduateSoftware.Controllers
                     val = Request.Cookies["user"].Value;
                     valPass = Request.Cookies["pass"].Value;
                 }
+                ////Same Session+Different User Login Correction
+                //Request.Cookies["user"].Expires = DateTime.Now.AddDays(-1);
 
                 var graduates = db.Graduates.Where(x => x.StudentID == val && x.StudentPassword==valPass);
                 return View(graduates.ToList());
@@ -71,6 +73,7 @@ namespace GraduateSoftware.Controllers
 
             if (ModelState.IsValid)
             {
+                GraduateModify.StudentPassword = Request.Cookies["pass"].Value;
                 db.Entry(GraduateModify).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("GraduateProfile", "Graduate");
