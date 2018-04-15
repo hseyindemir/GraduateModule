@@ -251,6 +251,7 @@
     <Content Include="Views\Graduates\Edit.cshtml" />
     <Content Include="Views\Graduates\Index.cshtml" />
     <Content Include="Views\Graduate\Edit.cshtml" />
+    <Content Include="Views\Home\WorkAreaGraph.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

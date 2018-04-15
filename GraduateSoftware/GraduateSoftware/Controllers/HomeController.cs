@@ -82,6 +82,27 @@ namespace GraduateSoftware.Controllers
 
         }
 
+        public ActionResult WorkAreaGraph()
+        {
+
+            //GETS THE PERCENTAGE OF GRADUATES PER WORK AREA
+            var graduateCountEducation = db.Graduates.Count(x => x.WorkAreaID == 1);
+            var graduateCountSoftware = db.Graduates.Count(x => x.WorkAreaID == 2);
+            var graduateCountOthers = db.Graduates.Count(x => x.WorkAreaID == 3);
+            var countTotal = graduateCountEducation + graduateCountSoftware + graduateCountOthers;
+            var educationPercentage = ((double)graduateCountEducation / (double)countTotal) * 100;
+            var softwarePercentage = ((double)graduateCountSoftware / (double)countTotal) * 100;
+            var othersPercentage = ((double)graduateCountOthers / (double)countTotal) * 100;
+
+            ViewBag.educationPercentage = educationPercentage.ToString("0.00"); ;
+            ViewBag.softwarePercentage = softwarePercentage.ToString("0.00"); ;
+            ViewBag.othersPercentage = othersPercentage.ToString("0.00"); ;
+
+            return View();
+
+
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

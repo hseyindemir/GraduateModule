@@ -1,0 +1,51 @@
+﻿@model GraduateSoftware.Models.WorkArea
+
+@{
+    ViewBag.Title = "WorkAreaGraph";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
+
+<script type="text/javascript">
+    // Chart from https://canvasjs.com/docs/charts/integration/asp-net-mvc-charts/types/asp-net-mvc-pie-charts/
+    $(function () {
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title: {
+                text: "Work Areas of Bogazici University Computer Education and Educational Technology Graduates"
+            },
+            animationEnabled: true,
+            legend: {
+                verticalAlign: "center",
+                horizontalAlign: "left",
+                fontSize: 20,
+                fontFamily: "Helvetica"
+            },
+            theme: "light2",
+            data: [
+            {
+                type: "pie",
+                indexLabelFontFamily: "Garamond",
+                indexLabelFontSize: 20,
+                indexLabel: "{label} {y}%",
+                startAngle: -20,
+                showInLegend: true,
+                toolTipContent: "{legendText} {y}%",
+                dataPoints: [
+                    { y:@Html.Raw(ViewBag.educationPercentage), legendText: "Education", label: "Education" },
+                    { y:@Html.Raw(ViewBag.softwarePercentage), legendText: "Software", label: "Software" },
+                    { y:@Html.Raw(ViewBag.othersPercentage), legendText: "Others", label: "Others" }
+                ],
+
+                //You can add dynamic data from the controller as shown below. Check the controller and uncomment the line which generates dataPoints.
+                //dataPoints: @Html.Raw(ViewBag.DataPoints),
+            }
+            ]
+        });
+        chart.render();
+    });
+</script>
+<div id="chartContainer"></div>
