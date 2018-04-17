@@ -15,6 +15,32 @@ namespace GraduateSoftware.Controllers
     {
         private GraduateModuleEntities db = new GraduateModuleEntities();
 
+        //USER NEEDS TO LOGIN AGAIN IF HE STAYS INACTIVE FOR 30 MINUTES
+        //ONACTIONEXECUTED OVERRIDE MUST BE IN EVERY CONTROLLER
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if ( filterContext.HttpContext.Request.RawUrl != "/Home/Logout")
+            {
+               
+                var sessionCookie = Request.Cookies["user"];
+                var sessionCookie2 = Request.Cookies["pass"];
+
+                if (sessionCookie != null && sessionCookie2 != null)
+                {
+                    sessionCookie.Expires = DateTime.Now.AddMinutes(30);
+                    sessionCookie2.Expires = DateTime.Now.AddMinutes(30);
+                    Response.SetCookie(sessionCookie);
+                    Response.SetCookie(sessionCookie2);
+                }
+
+            }
+
+
+
+            base.OnActionExecuted(filterContext);
+        }
+
         //CREATES SHA256
 
         static string sha256(string randomString)
@@ -32,6 +58,12 @@ namespace GraduateSoftware.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            var sessionCookie = Request.Cookies["user"];
+            var sessionCookie2 = Request.Cookies["pass"];
+            if (sessionCookie != null && sessionCookie2 != null)
+            {
+                return RedirectToAction("GraduateProfile", "Graduate");
+            }
             return View();
         }
         
@@ -44,16 +76,28 @@ namespace GraduateSoftware.Controllers
             if (!db.Graduates.Any(x => x.StudentID == username))
             {
                 //CREATE USER IF THE USER DOES NOT EXIST AND REDIRECT TO PROFILE
+                
                 Debug.WriteLine("Creating User: " + username + password);
                 Graduate graduate = new Graduate();
                 graduate.StudentID = username;
                 graduate.StudentPassword = hashedPass;
                 db.Graduates.Add(graduate);
                 db.SaveChanges();
-                return RedirectToAction("GraduateProfile", "Graduate");
+                //setting cookies
+                HttpCookie UserCookie = new HttpCookie("user", graduate.StudentID.ToString());
+                HttpCookie UserCookiePass = new HttpCookie("pass", graduate.StudentPassword.ToString());
+                UserCookie.Expires.AddMinutes(30);
+                UserCookiePass.Expires.AddMinutes(30);
+                HttpContext.Response.SetCookie(UserCookie);
+                HttpContext.Response.SetCookie(UserCookiePass);
+
+                return RedirectToAction("Edit", "Graduate", new { ID= username});
             }
             else
             {
+
+                
+
                 //IF USER EXISTS
                 //SAVE ID TO COOKIES AND LOGIN
 
@@ -65,8 +109,8 @@ namespace GraduateSoftware.Controllers
                 {
                     HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
                     HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
-                    UserCookie.Expires.AddDays(7);
-                    UserCookiePass.Expires.AddDays(7);
+                    UserCookie.Expires.AddMinutes(30);
+                    UserCookiePass.Expires.AddMinutes(30);
                     HttpContext.Response.SetCookie(UserCookie);
                     HttpContext.Response.SetCookie(UserCookiePass);
                     return RedirectToAction("GraduateProfile", "Graduate");
@@ -103,6 +147,31 @@ namespace GraduateSoftware.Controllers
 
         }
 
+        public ActionResult Logout()
+        {
+            
+            try { 
+                var Cookie1 = Request.Cookies["user"];
+                var Cookie2 = Request.Cookies["pass"];
+                
+                    Cookie1.Expires = DateTime.Now.AddDays(-1);
+                    Cookie2.Expires = DateTime.Now.AddDays(-1);
+                    Response.SetCookie(Cookie1);
+                    Response.SetCookie(Cookie2);
+
+                Debug.WriteLine("LOGGED OUT");
+                return RedirectToAction("Index", "Home");
+            }
+
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
+
+        }
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
