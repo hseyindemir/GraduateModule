@@ -21,7 +21,7 @@ namespace GraduateSoftware.Controllers
         {
             if (filterContext.HttpContext.Request.RawUrl != "/Home/Logout")
             {
-                
+
                 var sessionCookie = Request.Cookies["user"];
                 var sessionCookie2 = Request.Cookies["pass"];
 
@@ -51,19 +51,19 @@ namespace GraduateSoftware.Controllers
         {
             //USER HAS TO LOG IN TO ACCESS HERE
             HttpCookie NewCookie = Request.Cookies["user"];
-            if (Request.Cookies["user"] != null && Request.Cookies["pass"]!=null)
+            if (Request.Cookies["user"] != null && Request.Cookies["pass"] != null)
             {
                 GraduateModuleEntities db = new GraduateModuleEntities();
                 string val = "";
                 string valPass = "";
-                
-                    val = Request.Cookies["user"].Value;
-                    valPass = Request.Cookies["pass"].Value;
-                
+
+                val = Request.Cookies["user"].Value;
+                valPass = Request.Cookies["pass"].Value;
+
                 ////Same Session+Different User Login Correction
                 //Request.Cookies["user"].Expires = DateTime.Now.AddDays(-1);
 
-                var graduates = db.Graduates.Where(x => x.StudentID == val && x.StudentPassword==valPass);
+                var graduates = db.Graduates.Where(x => x.StudentID == val && x.StudentPassword == valPass);
                 return View(graduates.ToList());
 
             }
@@ -72,7 +72,7 @@ namespace GraduateSoftware.Controllers
                 return RedirectToAction("Logout", "Home");
             }
 
-    
+
 
         }
 
@@ -93,9 +93,23 @@ namespace GraduateSoftware.Controllers
                 else if (Request.Cookies["user"].Value == graduate.StudentID && Request.Cookies["pass"].Value == graduate.StudentPassword)
                 {
 
-                    ViewBag.WorkAreaID = new SelectList(db.WorkAreas, "WAID", "WorkAreaName", graduate.WorkAreaID);
-                    ViewBag.WorkAreaDetailID = new SelectList(db.WorkAreaDetails, "WADID", "WorkAreaDetailName", graduate.WorkAreaDetailID);
-                    return View(graduate);
+                    //Pump->WorkAreaList
+
+                    GraduateModel graduateModel = new GraduateModel();
+                    graduateModel.StudentID = graduate.StudentID;
+                    graduateModel.GraduateLastName = graduate.GraduateLastName;
+                    graduateModel.GraduateName = graduate.GraduateName;
+                    graduateModel.GraduateMail = graduate.GraduateMail;
+                    graduateModel.GraduateCompany = graduate.GraduateCompany;
+                    graduateModel.GraduateYear = graduate.GraduateYear;
+                    graduateModel.GraduateTitle = graduate.GraduateTitle;
+                    graduateModel.GraduatePhone = graduate.GraduatePhone;
+                    graduateModel.StudentPassword = graduate.StudentPassword;
+                    graduateModel.Alanlar = new SelectList(db.WorkAreas, "WAID", "WorkAreaName");
+                    
+
+
+                    return View(graduateModel);
 
                 }
                 else
@@ -109,13 +123,24 @@ namespace GraduateSoftware.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Edit(Graduate GraduateModify)
+        public ActionResult Edit(GraduateModel GraduateModify)
         {
 
             if (ModelState.IsValid)
             {
-                GraduateModify.StudentPassword = Request.Cookies["pass"].Value;
-                db.Entry(GraduateModify).State = EntityState.Modified;
+                Graduate graduateModel = new Graduate();
+                graduateModel.StudentID = GraduateModify.StudentID;
+                graduateModel.GraduateLastName = GraduateModify.GraduateLastName;
+                graduateModel.GraduateName = GraduateModify.GraduateName;
+                graduateModel.GraduateMail = GraduateModify.GraduateMail;
+                graduateModel.GraduateCompany = GraduateModify.GraduateCompany;
+                graduateModel.GraduateYear = GraduateModify.GraduateYear;
+                graduateModel.GraduateTitle = GraduateModify.GraduateTitle;
+                graduateModel.GraduatePhone = GraduateModify.GraduatePhone;
+                graduateModel.StudentPassword = GraduateModify.StudentPassword;
+                graduateModel.StudentPassword = Request.Cookies["pass"].Value;
+                graduateModel.WorkAreaID = GraduateModify.WorkAreaID;
+                db.Entry(graduateModel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("GraduateProfile", "Graduate");
             }

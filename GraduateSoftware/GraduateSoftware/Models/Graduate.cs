@@ -15,7 +15,6 @@ namespace GraduateSoftware.Models
     public partial class Graduate
     {
         public string StudentID { get; set; }
-        public string StudentPassword { get; set; }
         public string GraduateName { get; set; }
         public string GraduateLastName { get; set; }
         public Nullable<int> GraduateYear { get; set; }
@@ -25,6 +24,7 @@ namespace GraduateSoftware.Models
         public string GraduateTitle { get; set; }
         public string GraduateMail { get; set; }
         public string GraduatePhone { get; set; }
+        public string StudentPassword { get; set; }
     
         public virtual WorkArea WorkArea { get; set; }
         public virtual WorkAreaDetail WorkAreaDetail { get; set; }

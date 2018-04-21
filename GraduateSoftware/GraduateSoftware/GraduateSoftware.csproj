@@ -173,6 +173,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GraduateDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\GraduateModel.cs" />
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>GraduateDB.tt</DependentUpon>
     </Compile>
@@ -182,6 +183,7 @@
     <Compile Include="Models\WorkAreaDetail.cs">
       <DependentUpon>GraduateDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WorkAreaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -197,8 +199,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\GraduateDB.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GraduateDB.Context.cs</LastGenOutput>
       <DependentUpon>GraduateDB.edmx</DependentUpon>
+      <LastGenOutput>GraduateDB.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\GraduateDB.edmx.sql" />
     <Content Include="Models\GraduateDB.tt">

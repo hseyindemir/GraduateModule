@@ -25,9 +25,9 @@ namespace GraduateSoftware.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Graduate> Graduates { get; set; }
-        public virtual DbSet<WorkAreaDetail> WorkAreaDetails { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WorkArea> WorkAreas { get; set; }
+        public virtual DbSet<WorkAreaDetail> WorkAreaDetails { get; set; }
     }
 }
