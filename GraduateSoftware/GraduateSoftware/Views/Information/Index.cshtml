@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en-US">
+<body>
+
+    @section scripts
+{
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script>
+
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(DownloadChartData);
+
+        function DownloadChartData() {
+            $.ajax({
+                url: '@Url.Action("getMapData", "Information")',
+                success: function (response) {
+                    ShowChart(response);
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        };
+        function ShowChart(data) {
+            var options = {
+                title: data.title,
+                axisTitlesPosition: "none",
+                legend: {
+                    position: "none"
+                },
+                vAxis: {
+                    textPosition: "none"
+                },
+                hAxis: {
+                    textPosition: "none"
+                }
+            };
+            var dataTable = new google.visualization.DataTable(data.dataTable);
+            var chart = new google.visualization.PieChart(document.getElementById('chart-area'));
+            chart.draw(dataTable, options);
+            var chart2 = new google.visualization.BarChart(document.getElementById('chart-area2'));
+            chart2.draw(dataTable, options);
+            var chart3 = new google.visualization.LineChart(document.getElementById('chart-area3'));
+            chart3.draw(dataTable, options);
+        };
+        </script>
+    }
+
+    @*<div class="jumbotron">
+            <h1>ASP.NET MVC app with integrated Google Charts</h1>
+            <p class="lead">An example on how to display data using Google visualizations with data supplied by controller</p>
+            <p>
+                <a href="https://google-developers.appspot.com/chart/interactive/docs/quick_start" class="btn btn-primary btn-lg">Google Charts quick start &raquo;</a>
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Displaying the chart</h2>
+                <p>
+                    The chart shoud load asyncronously in the space at the right of this block
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+            </div>*@
+    <div class="col-md-8">
+        <div id="chart-area"></div>
+    </div>
+  
+
+</body>
+</html>

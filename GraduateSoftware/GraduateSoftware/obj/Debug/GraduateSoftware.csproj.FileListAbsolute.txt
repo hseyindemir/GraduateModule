@@ -137,3 +137,6 @@ C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSo
 C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.csproj.CoreCompileInputs.cache
 C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.dll
 C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.pdb
+C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\bin\Chart.Mvc.dll
+C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\bin\Chart.Mvc.pdb
+C:\Users\Hüseyin\Desktop\OnGoingProjects\BounGraduate\GraduateModule\GraduateSoftware\GraduateSoftware\bin\Chart.Mvc.xml
