@@ -1,6 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="en-US">
-<body>
+
+<body style="">
+    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">*@
+    
 
     @section scripts
 {
@@ -23,10 +26,12 @@
         };
         function ShowChart(data) {
             var options = {
-                title: data.title,
+                title: "Work Areas of Bogazici University Computer Education and Educational Technology Graduates",
                 axisTitlesPosition: "none",
+                width: "1200",
+                height: "900",
                 legend: {
-                    position: "none"
+                    position: "700"
                 },
                 vAxis: {
                     textPosition: "none"
@@ -62,10 +67,10 @@
                 </p>
                 <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
             </div>*@
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div id="chart-area"></div>
     </div>
-  
+
 
 </body>
 </html>
