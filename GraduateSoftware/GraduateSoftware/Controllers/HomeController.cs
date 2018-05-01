@@ -8,11 +8,13 @@ using GraduateSoftware.Models;
 using System.Diagnostics;
 using System.Text;
 using System.Security.Cryptography;
+using Vereyon.Web;
 
 namespace GraduateSoftware.Controllers
 {
     public class HomeController : Controller
     {
+
         private GraduateModuleEntities db = new GraduateModuleEntities();
 
         //USER NEEDS TO LOGIN AGAIN IF HE STAYS INACTIVE FOR 30 MINUTES
@@ -64,6 +66,7 @@ namespace GraduateSoftware.Controllers
             {
                 return RedirectToAction("GraduateProfile", "Graduate");
             }
+            
             return View();
         }
         
@@ -113,7 +116,8 @@ namespace GraduateSoftware.Controllers
                     UserCookiePass.Expires.AddMinutes(30);
                     HttpContext.Response.SetCookie(UserCookie);
                     HttpContext.Response.SetCookie(UserCookiePass);
-                    return RedirectToAction("GraduateProfile", "Graduate");
+                    FlashMessage.Confirmation("Successfully logged in.");
+                    return RedirectToAction("GraduateProfile", "Graduate"); 
                     
                 }
                 //ELSE RETURN TO LOGIN FORM
@@ -160,6 +164,7 @@ namespace GraduateSoftware.Controllers
                     Response.SetCookie(Cookie2);
 
                 Debug.WriteLine("LOGGED OUT");
+                FlashMessage.Confirmation("Successfully logged out.");
                 return RedirectToAction("Index", "Home");
             }
 

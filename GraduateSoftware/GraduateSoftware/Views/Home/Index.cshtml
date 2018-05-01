@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Bootstrap Snippet: Login Form</title>
-
+    @using Vereyon.Web
 
     <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css'>
     <link rel="stylesheet" href="css/style.css">
 
 </head>
 <body>
+    
     <div class="wrapper">
+       
+        @Html.RenderFlashMessages()
         <form class="form-signin" method="post">
             <h2 class="form-signin-heading">Please login</h2>
             <input type="text" class="form-control" name="username" placeholder="Student ID" required="" autofocus="" />

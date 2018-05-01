@@ -190,3 +190,4 @@ C:\Users\Ibrahim\Desktop\Graduate3\GraduateSoftware\GraduateSoftware\obj\Debug\G
 C:\Users\Ibrahim\Desktop\Graduate3\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.csproj.CopyComplete
 C:\Users\Ibrahim\Desktop\Graduate3\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.dll
 C:\Users\Ibrahim\Desktop\Graduate3\GraduateSoftware\GraduateSoftware\obj\Debug\GraduateSoftware.pdb
+C:\Users\Ibrahim\Desktop\Graduate3\GraduateSoftware\GraduateSoftware\bin\Vereyon.Web.FlashMessage.dll

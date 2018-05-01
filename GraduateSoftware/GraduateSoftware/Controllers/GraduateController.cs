@@ -7,6 +7,7 @@ using GraduateSoftware.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Data.Entity;
+using Vereyon.Web;
 
 namespace GraduateSoftware.Controllers
 {
@@ -106,9 +107,9 @@ namespace GraduateSoftware.Controllers
                     graduateModel.GraduatePhone = graduate.GraduatePhone;
                     graduateModel.StudentPassword = graduate.StudentPassword;
                     graduateModel.Alanlar = new SelectList(db.WorkAreas, "WAID", "WorkAreaName");
-                    
 
 
+                    FlashMessage.Confirmation("Update successful.");
                     return View(graduateModel);
 
                 }
