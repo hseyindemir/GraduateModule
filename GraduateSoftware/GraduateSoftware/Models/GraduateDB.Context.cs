@@ -29,5 +29,7 @@ namespace GraduateSoftware.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<WorkArea> WorkAreas { get; set; }
         public virtual DbSet<WorkAreaDetail> WorkAreaDetails { get; set; }
+        public virtual DbSet<AdminGraduateVerification> AdminGraduateVerifications { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
     }
 }

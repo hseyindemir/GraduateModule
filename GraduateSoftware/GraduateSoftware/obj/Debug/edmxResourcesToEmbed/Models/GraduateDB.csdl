@@ -17,6 +17,7 @@
     <Property Name="StudentPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="WorkArea" Relationship="Self.FK__Graduates__WorkA__3C69FB99" FromRole="Graduates" ToRole="WorkArea" />
     <NavigationProperty Name="WorkAreaDetail" Relationship="Self.FK__Graduates__WorkA__3D5E1FD2" FromRole="Graduates" ToRole="WorkAreaDetail" />
+    <NavigationProperty Name="AdminGraduateVerifications" Relationship="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" FromRole="Graduate" ToRole="AdminGraduateVerification" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -100,5 +101,60 @@
       <End Role="WorkArea" EntitySet="WorkAreas" />
       <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
     </AssociationSet>
+    <EntitySet Name="AdminGraduateVerifications" EntityType="GraduateModuleModel.AdminGraduateVerification" />
+    <EntitySet Name="Admins" EntityType="GraduateModuleModel.Admin" />
+    <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="GraduateModuleModel.FK__AdminGrad__Admin__628FA481">
+      <End Role="Admin" EntitySet="Admins" />
+      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA">
+      <End Role="Graduate" EntitySet="Graduates" />
+      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="AdminGraduateVerification">
+    <Key>
+      <PropertyRef Name="VerificationID" />
+    </Key>
+    <Property Name="VerificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IsVerified" Type="Boolean" />
+    <Property Name="AdminID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StudentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Admin" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="AdminGraduateVerification" ToRole="Admin" />
+    <NavigationProperty Name="Graduate" Relationship="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" FromRole="AdminGraduateVerification" ToRole="Graduate" />
+  </EntityType>
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AdminGraduateVerifications" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="Admin" ToRole="AdminGraduateVerification" />
+  </EntityType>
+  <Association Name="FK__AdminGrad__Admin__628FA481">
+    <End Type="GraduateModuleModel.Admin" Role="Admin" Multiplicity="0..1" />
+    <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="AdminID" />
+      </Principal>
+      <Dependent Role="AdminGraduateVerification">
+        <PropertyRef Name="AdminID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AdminGrad__Stude__6383C8BA">
+    <End Type="GraduateModuleModel.Graduate" Role="Graduate" Multiplicity="0..1" />
+    <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Graduate">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="AdminGraduateVerification">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

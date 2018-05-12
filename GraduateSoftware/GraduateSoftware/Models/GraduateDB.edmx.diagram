@@ -12,6 +12,10 @@
         <AssociationConnector Association="GraduateModuleModel.FK__Graduates__WorkA__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="GraduateModuleModel.FK__Graduates__WorkA__3D5E1FD2" ManuallyRouted="false" />
         <AssociationConnector Association="GraduateModuleModel.FK__WorkAreaD__WorkA__398D8EEE" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GraduateModuleModel.AdminGraduateVerification" Width="1.5" PointX="7.5" PointY="5.375" />
+        <EntityTypeShape EntityType="GraduateModuleModel.Admin" Width="1.5" PointX="5.25" PointY="1.5" />
+        <AssociationConnector Association="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" />
+        <AssociationConnector Association="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

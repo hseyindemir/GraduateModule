@@ -1,0 +1,104 @@
+﻿@model IEnumerable<GraduateSoftware.Models.AdminGraduateVerification>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<h2>Verify or reject graduate applications</h2>
+
+
+
+
+@{ short i = 0;
+
+    List<string> studentidList = new List<string>();
+}
+
+@using Vereyon.Web
+@using System.Diagnostics;
+@Html.RenderFlashMessages()
+
+@foreach (var item in Model)
+{
+    if (item.StudentID != null)
+    {
+
+
+        <hr />
+        <div id="mainFrame" class="form-horizontal container">
+            <h4></h4>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10 form-inline">
+                    @Html.DisplayFor(modelItem => item.StudentID)
+                    <div style="float:right;" data-index="@i">
+                        <input id="accept" type="submit" name="verify" value="Accept" class="btn btn-success accept" />
+                        <input id="reject" type="submit" name="verify" value="Reject" class="btn btn-danger reject" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        studentidList.Add(item.StudentID);
+
+
+        i++;
+    }
+
+}
+@if (studentidList.Count() == 0)
+{
+    <hr />
+    <h3>There is no graduate application right now.</h3>
+}
+
+<script>
+    $(document).ready(function () {
+
+        var newStuArray = [];
+
+    @foreach (var d in studentidList)
+    {
+        @:newStuArray.push("@d");
+    }
+
+
+        console.log(newStuArray);
+    $(".accept").on("click", function () {
+        var index = $(this).closest('div').data('index');
+        console.log(index+"dfgdfgd");
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Index',
+            data: {studentid:newStuArray[index],verify:"Accept"},
+            success: function (resultData) {
+
+                console.log("posted");
+            }
+        });
+
+        });
+
+        $(".reject").on("click", function () {
+            var index = $(this).closest('div').data('index');
+            console.log(index + "dfgdfgd");
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Index',
+                data: { studentid: newStuArray[index], verify: "Reject" },
+                success: function (resultData) {
+
+                    console.log("posted");
+                }
+            });
+
+        });
+
+    });
+
+
+</script>
+
+

@@ -15,3 +15,26 @@ PRIMARY KEY(StudentID),
 FOREIGN KEY (WorkAreaID) REFERENCES WorkArea(WAID),
 FOREIGN KEY (WorkAreaDetailID) REFERENCES WorkAreaDetail(WADID)
 )
+
+Create Table Admins
+
+(
+AdminID nvarchar(50) NOT NULL,
+AdminName nvarchar(50),
+AdminLastName nvarchar(50),
+AdminPassword nvarchar(50) NOT NULL,
+PRIMARY KEY(AdminID)
+
+)
+
+Create Table AdminGraduateVerification
+
+(
+VerificationID int IDENTITY(1,1),
+IsVerified bit,
+AdminID nvarchar(50),
+StudentID nvarchar(50),
+PRIMARY KEY(VerificationID),
+FOREIGN KEY (AdminID) REFERENCES Admins(AdminID),
+FOREIGN KEY (StudentID) REFERENCES Graduates(StudentID)
+)

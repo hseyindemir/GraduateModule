@@ -57,15 +57,38 @@ namespace GraduateSoftware.Controllers
             return hash.ToString();
         }
 
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
+            
             var sessionCookie = Request.Cookies["user"];
             var sessionCookie2 = Request.Cookies["pass"];
             if (sessionCookie != null && sessionCookie2 != null)
             {
-                return RedirectToAction("GraduateProfile", "Graduate");
-            }
+                if (db.Admins.Any(x => x.AdminID == sessionCookie.Value))
+                {
+                     return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("GraduateProfile", "Graduate");
+                }
+                }
+        
+           
             
             return View();
         }
@@ -76,7 +99,8 @@ namespace GraduateSoftware.Controllers
         public ActionResult Index(string username, string password)
         {
             var hashedPass = sha256(password);
-            if (!db.Graduates.Any(x => x.StudentID == username))
+            
+            if (!db.Graduates.Any(x => x.StudentID == username) && !db.Admins.Any(x => x.AdminID == username) && IsValidEmail(username) && password.Length>5)
             {
                 //CREATE USER IF THE USER DOES NOT EXIST AND REDIRECT TO PROFILE
                 
@@ -85,6 +109,13 @@ namespace GraduateSoftware.Controllers
                 graduate.StudentID = username;
                 graduate.StudentPassword = hashedPass;
                 db.Graduates.Add(graduate);
+
+                AdminGraduateVerification graduateV = new AdminGraduateVerification();
+                graduateV.IsVerified = false;
+                graduateV.AdminID = db.Admins.SingleOrDefault().AdminID;
+                graduateV.StudentID = username;
+                db.AdminGraduateVerifications.Add(graduateV);
+
                 db.SaveChanges();
                 //setting cookies
                 HttpCookie UserCookie = new HttpCookie("user", graduate.StudentID.ToString());
@@ -94,9 +125,9 @@ namespace GraduateSoftware.Controllers
                 HttpContext.Response.SetCookie(UserCookie);
                 HttpContext.Response.SetCookie(UserCookiePass);
 
-                return RedirectToAction("Edit", "Graduate", new { ID= username});
+                return RedirectToAction("GraduateProfile", "Graduate");
             }
-            else
+            else if (db.Graduates.Any(x => x.StudentID == username))
             {
 
                 
@@ -126,7 +157,38 @@ namespace GraduateSoftware.Controllers
                 }
 
             }
-            
+            else if (db.Admins.Any(x => x.AdminID == username))
+            {
+                Admin user = new Admin();
+                user = db.Admins.Where(x => x.AdminID == username && x.AdminPassword == password).FirstOrDefault();
+
+                //IF USERNAME AND PASSWORD IS CORRECT
+                if (user != null)
+                {
+                    HttpCookie UserCookie = new HttpCookie("user", user.AdminID.ToString());
+                    HttpCookie UserCookiePass = new HttpCookie("pass", user.AdminPassword.ToString());
+                    UserCookie.Expires.AddMinutes(30);
+                    UserCookiePass.Expires.AddMinutes(30);
+                    HttpContext.Response.SetCookie(UserCookie);
+                    HttpContext.Response.SetCookie(UserCookiePass);
+                    FlashMessage.Confirmation("Successfully logged in as Admin.");
+                    return RedirectToAction("Index", "Admin");
+
+                }
+                //ELSE RETURN TO LOGIN FORM
+                else
+                {
+                    
+                    return View();
+                }
+            }
+            else
+            {
+                FlashMessage.Danger("Enter a valid email and password.");
+                return View();
+            }
+
+
 
         }
 

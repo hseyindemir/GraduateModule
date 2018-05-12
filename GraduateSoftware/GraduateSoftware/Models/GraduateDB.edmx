@@ -4,7 +4,25 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminGraduateVerification">
+          <Key>
+            <PropertyRef Name="VerificationID" />
+          </Key>
+          <Property Name="VerificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsVerified" Type="bit" />
+          <Property Name="AdminID" Type="nvarchar" MaxLength="50" />
+          <Property Name="StudentID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdminName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AdminLastName" Type="nvarchar" MaxLength="50" />
+          <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Graduates">
           <Key>
             <PropertyRef Name="StudentID" />
@@ -46,6 +64,30 @@
           <Property Name="WorkAreaDetailName" Type="nvarchar" MaxLength="50" />
           <Property Name="WorkAreaID" Type="int" />
         </EntityType>
+        <Association Name="FK__AdminGrad__Admin__628FA481">
+          <End Role="Admins" Type="Self.Admins" Multiplicity="0..1" />
+          <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admins">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminGraduateVerification">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminGrad__Stude__6383C8BA">
+          <End Role="Graduates" Type="Self.Graduates" Multiplicity="0..1" />
+          <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Graduates">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AdminGraduateVerification">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Graduates__WorkA__3C69FB99">
           <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
           <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
@@ -83,10 +125,20 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="GraduateModuleModelStoreContainer">
+          <EntitySet Name="AdminGraduateVerification" EntityType="Self.AdminGraduateVerification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Graduates" EntityType="Self.Graduates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkArea" EntityType="Self.WorkArea" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WorkAreaDetail" EntityType="Self.WorkAreaDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="Self.FK__AdminGrad__Admin__628FA481">
+            <End Role="Admins" EntitySet="Admins" />
+            <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="Self.FK__AdminGrad__Stude__6383C8BA">
+            <End Role="Graduates" EntitySet="Graduates" />
+            <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+          </AssociationSet>
           <AssociationSet Name="FK__Graduates__WorkA__3C69FB99" Association="Self.FK__Graduates__WorkA__3C69FB99">
             <End Role="WorkArea" EntitySet="WorkArea" />
             <End Role="Graduates" EntitySet="Graduates" />
@@ -100,8 +152,7 @@
             <End Role="WorkAreaDetail" EntitySet="WorkAreaDetail" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GraduateModuleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -122,6 +173,7 @@
           <Property Name="StudentPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="WorkArea" Relationship="Self.FK__Graduates__WorkA__3C69FB99" FromRole="Graduates" ToRole="WorkArea" />
           <NavigationProperty Name="WorkAreaDetail" Relationship="Self.FK__Graduates__WorkA__3D5E1FD2" FromRole="Graduates" ToRole="WorkAreaDetail" />
+          <NavigationProperty Name="AdminGraduateVerifications" Relationship="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" FromRole="Graduate" ToRole="AdminGraduateVerification" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -205,7 +257,62 @@
             <End Role="WorkArea" EntitySet="WorkAreas" />
             <End Role="WorkAreaDetail" EntitySet="WorkAreaDetails" />
           </AssociationSet>
+          <EntitySet Name="AdminGraduateVerifications" EntityType="GraduateModuleModel.AdminGraduateVerification" />
+          <EntitySet Name="Admins" EntityType="GraduateModuleModel.Admin" />
+          <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="GraduateModuleModel.FK__AdminGrad__Admin__628FA481">
+            <End Role="Admin" EntitySet="Admins" />
+            <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA">
+            <End Role="Graduate" EntitySet="Graduates" />
+            <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AdminGraduateVerification">
+          <Key>
+            <PropertyRef Name="VerificationID" />
+          </Key>
+          <Property Name="VerificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsVerified" Type="Boolean" />
+          <Property Name="AdminID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StudentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Admin" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="AdminGraduateVerification" ToRole="Admin" />
+          <NavigationProperty Name="Graduate" Relationship="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" FromRole="AdminGraduateVerification" ToRole="Graduate" />
+        </EntityType>
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminLastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AdminPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AdminGraduateVerifications" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="Admin" ToRole="AdminGraduateVerification" />
+        </EntityType>
+        <Association Name="FK__AdminGrad__Admin__628FA481">
+          <End Type="GraduateModuleModel.Admin" Role="Admin" Multiplicity="0..1" />
+          <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminGraduateVerification">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminGrad__Stude__6383C8BA">
+          <End Type="GraduateModuleModel.Graduate" Role="Graduate" Multiplicity="0..1" />
+          <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Graduate">
+              <PropertyRef Name="StudentID" />
+            </Principal>
+            <Dependent Role="AdminGraduateVerification">
+              <PropertyRef Name="StudentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -254,6 +361,26 @@
                 <ScalarProperty Name="WADID" ColumnName="WADID" />
                 <ScalarProperty Name="WorkAreaDetailName" ColumnName="WorkAreaDetailName" />
                 <ScalarProperty Name="WorkAreaID" ColumnName="WorkAreaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminGraduateVerifications">
+            <EntityTypeMapping TypeName="GraduateModuleModel.AdminGraduateVerification">
+              <MappingFragment StoreEntitySet="AdminGraduateVerification">
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+                <ScalarProperty Name="VerificationID" ColumnName="VerificationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="GraduateModuleModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+                <ScalarProperty Name="AdminLastName" ColumnName="AdminLastName" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

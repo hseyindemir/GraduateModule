@@ -12,28 +12,19 @@ namespace GraduateSoftware.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Graduate
+    public partial class Admin
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Graduate()
+        public Admin()
         {
             this.AdminGraduateVerifications = new HashSet<AdminGraduateVerification>();
         }
     
-        public string StudentID { get; set; }
-        public string GraduateName { get; set; }
-        public string GraduateLastName { get; set; }
-        public Nullable<int> GraduateYear { get; set; }
-        public Nullable<int> WorkAreaID { get; set; }
-        public Nullable<int> WorkAreaDetailID { get; set; }
-        public string GraduateCompany { get; set; }
-        public string GraduateTitle { get; set; }
-        public string GraduateMail { get; set; }
-        public string GraduatePhone { get; set; }
-        public string StudentPassword { get; set; }
+        public string AdminID { get; set; }
+        public string AdminName { get; set; }
+        public string AdminLastName { get; set; }
+        public string AdminPassword { get; set; }
     
-        public virtual WorkArea WorkArea { get; set; }
-        public virtual WorkAreaDetail WorkAreaDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AdminGraduateVerification> AdminGraduateVerifications { get; set; }
     }

@@ -1,5 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AdminGraduateVerification">
+    <Key>
+      <PropertyRef Name="VerificationID" />
+    </Key>
+    <Property Name="VerificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" />
+    <Property Name="AdminID" Type="nvarchar" MaxLength="50" />
+    <Property Name="StudentID" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Admins">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminName" Type="nvarchar" MaxLength="50" />
+    <Property Name="AdminLastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="Graduates">
     <Key>
       <PropertyRef Name="StudentID" />
@@ -41,6 +59,30 @@
     <Property Name="WorkAreaDetailName" Type="nvarchar" MaxLength="50" />
     <Property Name="WorkAreaID" Type="int" />
   </EntityType>
+  <Association Name="FK__AdminGrad__Admin__628FA481">
+    <End Role="Admins" Type="Self.Admins" Multiplicity="0..1" />
+    <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admins">
+        <PropertyRef Name="AdminID" />
+      </Principal>
+      <Dependent Role="AdminGraduateVerification">
+        <PropertyRef Name="AdminID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__AdminGrad__Stude__6383C8BA">
+    <End Role="Graduates" Type="Self.Graduates" Multiplicity="0..1" />
+    <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Graduates">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="AdminGraduateVerification">
+        <PropertyRef Name="StudentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Graduates__WorkA__3C69FB99">
     <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
     <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
@@ -78,10 +120,20 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="GraduateModuleModelStoreContainer">
+    <EntitySet Name="AdminGraduateVerification" EntityType="Self.AdminGraduateVerification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Graduates" EntityType="Self.Graduates" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkArea" EntityType="Self.WorkArea" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkAreaDetail" EntityType="Self.WorkAreaDetail" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="Self.FK__AdminGrad__Admin__628FA481">
+      <End Role="Admins" EntitySet="Admins" />
+      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+    </AssociationSet>
+    <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="Self.FK__AdminGrad__Stude__6383C8BA">
+      <End Role="Graduates" EntitySet="Graduates" />
+      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+    </AssociationSet>
     <AssociationSet Name="FK__Graduates__WorkA__3C69FB99" Association="Self.FK__Graduates__WorkA__3C69FB99">
       <End Role="WorkArea" EntitySet="WorkArea" />
       <End Role="Graduates" EntitySet="Graduates" />

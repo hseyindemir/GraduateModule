@@ -173,11 +173,18 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\GraduateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InformationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Admin.cs">
+      <DependentUpon>GraduateDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AdminGraduateVerification.cs">
+      <DependentUpon>GraduateDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChartViewModel.cs" />
     <Compile Include="Models\Graduate.cs">
@@ -283,10 +290,14 @@
     <Content Include="Views\Graduate\Edit.cshtml" />
     <Content Include="Views\Home\WorkAreaGraph.cshtml" />
     <Content Include="Views\Information\Index.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Admin\Details.cshtml" />
+    <Content Include="Views\Admin\Edit.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Admin\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
