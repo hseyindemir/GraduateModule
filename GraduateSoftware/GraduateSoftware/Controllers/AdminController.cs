@@ -77,6 +77,25 @@ namespace GraduateSoftware.Controllers
             }
         }
 
+        public ActionResult AdminGraduateDetails()
+        {
+            
+            var graduates = db.Graduates;
+            var adminGraduate = db.AdminGraduateVerifications.Where(x => x.IsVerified == true);
+
+            List<Graduate> graduateList = new List<Graduate>();
+            foreach (var item in adminGraduate.ToList())
+            {
+                var newGraduate=db.Graduates.FirstOrDefault(x => x.StudentID == item.StudentID);
+                graduateList.Add(newGraduate);
+            }
+            
+
+
+            return View(graduateList);
+            
+        }
+
         // GET: Admin/Details/5
         public ActionResult Details(int? id)
         {

@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GraduateSoftware.Models.Graduate>
+
+@{
+    /**/
+
+    ViewBag.Title = "AdminGraduateDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/List.css" rel="stylesheet" />
+<h2>AdminGraduateDetails</h2>
+
+<div class="container">
+
+    <div id="products" class="row list-group">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="item list-group-item col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="~/Content/Images/bogazici-universitesi-logo-DB83D14A8B-seeklogo.com.png" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            @Html.DisplayFor(model => item.GraduateName) @Html.DisplayFor(model => item.GraduateLastName)
+                        </h4>
+                        <p class="group inner list-group-item-text" style="">
+                            Title: @Html.DisplayFor(model => item.GraduateTitle)
+                        </p>
+                        <p class="group inner list-group-item-text" style="">
+                            Graduate Year: @Html.DisplayFor(model => item.GraduateYear)
+                        </p>
+                        <p class="group inner list-group-item-text" style="">
+                            Current Company: @Html.DisplayFor(model => item.GraduateCompany)
+                        </p>
+                        <p class="group inner list-group-item-text" style="">
+                            Phone: @Html.DisplayFor(model => item.GraduatePhone)
+                        </p>
+                        <p class="group inner list-group-item-text" style="">
+                            Area of Work: @Html.DisplayFor(model => item.WorkArea.WorkAreaName)
+                        </p>
+                        <p class="group inner list-group-item-text">
+                            Email: @Html.DisplayFor(model => item.GraduateMail)
+                        </p>
+                        <p class="group inner list-group-item-text">
+                            StudentID: @Html.DisplayFor(model => item.StudentID)
+                        </p>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-6">
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+  
+
+
+
+
+
+
+
+}
+
+        
+        </div>
+
+        <p>
+
+
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+        <script>
+            $(document).ready(function () {
+                $('#list').click(function (event) { event.preventDefault(); $('#products .item').addClass('list-group-item'); });
+                $('#grid').click(function (event) { event.preventDefault(); $('#products .item').removeClass('list-group-item'); $('#products .item').addClass('grid-group-item'); });
+            });
+        </script>

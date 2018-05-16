@@ -21,5 +21,6 @@ namespace GraduateSoftware.Models
         public string GraduatePhone { get; set; }
         public string StudentPassword { get; set; }
         public SelectList Alanlar { get; set; }
+        public virtual AdminGraduateVerification adminGraduate { get; set; }
     }
 }

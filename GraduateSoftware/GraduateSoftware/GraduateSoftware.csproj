@@ -226,6 +226,7 @@
     <Content Include="Content\Images\bogazici-universitesi-logo-DB83D14A8B-seeklogo.com.png" />
     <Content Include="Content\Images\greg_head.png" />
     <Content Include="css\card.css" />
+    <Content Include="css\List.css" />
     <Content Include="css\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -295,6 +296,7 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\AdminGraduateDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
