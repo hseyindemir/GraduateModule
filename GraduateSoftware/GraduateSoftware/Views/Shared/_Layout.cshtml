@@ -6,26 +6,44 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     
 </head>
 <body>
     
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#12295d;">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
+                <div style=" float:left; margin-left:-55%; ">
+                    <a href="/" class="navbar-left" style="padding:3px; padding-right:5px;">
+
+                        <img style="background-color:white; float:left;" src="~/Content/Images/bogazici-universitesi-logo-DB83D14A8B-seeklogo.com.png"
+                             class="img-circle img-responsive" width="45" height="45">
+                    </a>
+                    @Html.ActionLink("Graduates of Computer Education and Educational Technology Department", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @style = "color:white;" })
+                </div>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                  
+                </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("WorkAreaGraph", "Index", "Information")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li style="float:right;">@Html.ActionLink("Logout", "Logout", "Home")</li>
+                <ul class="nav navbar-nav" style="margin-left:-28%;">
+                    <li><a style="color:white;" href="/">Home</a></li>
+                    <li><a style="color:white;" href="/Information">Statistics</a></li>
+                    @if( Request.Cookies["user"]!=null && Request.Cookies["pass"]!=null ){
+                        <li style="float:right; margin-right:-410%;"><a style="color:white;" href="/Home/Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li style="float:right; margin-right:-430%;"><a style="color:white;" href="/">Login</a></li>
+                    }
+
                 </ul>
             </div>
         </div>

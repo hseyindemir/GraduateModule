@@ -118,45 +118,55 @@ namespace GraduateSoftware.Controllers
 
                 db.SaveChanges();
                 //setting cookies
-                HttpCookie UserCookie = new HttpCookie("user", graduate.StudentID.ToString());
-                HttpCookie UserCookiePass = new HttpCookie("pass", graduate.StudentPassword.ToString());
-                UserCookie.Expires.AddMinutes(30);
-                UserCookiePass.Expires.AddMinutes(30);
-                HttpContext.Response.SetCookie(UserCookie);
-                HttpContext.Response.SetCookie(UserCookiePass);
+                //HttpCookie UserCookie = new HttpCookie("user", graduate.StudentID.ToString());
+                //HttpCookie UserCookiePass = new HttpCookie("pass", graduate.StudentPassword.ToString());
+                //UserCookie.Expires.AddMinutes(30);
+                //UserCookiePass.Expires.AddMinutes(30);
+                //HttpContext.Response.SetCookie(UserCookie);
+                //HttpContext.Response.SetCookie(UserCookiePass);
 
-                return RedirectToAction("GraduateProfile", "Graduate");
+                FlashMessage.Info("Successfully registered. Please wait for your verification. You will be notified via email in 7 days when you are verified.");
+                return RedirectToAction("Index", "Home");
             }
             else if (db.Graduates.Any(x => x.StudentID == username))
             {
 
-                
+                 
 
                 //IF USER EXISTS
                 //SAVE ID TO COOKIES AND LOGIN
 
                 Graduate user = new Graduate();
                 user = db.Graduates.Where(x => x.StudentID == username && x.StudentPassword == hashedPass).FirstOrDefault();
+                    if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == user.StudentID).IsVerified == true)
+                    {
+                        //IF USERNAME AND PASSWORD IS CORRECT
+                        if (user != null)
+                        {
+                            HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
+                            HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
+                            UserCookie.Expires.AddMinutes(30);
+                            UserCookiePass.Expires.AddMinutes(30);
+                            HttpContext.Response.SetCookie(UserCookie);
+                            HttpContext.Response.SetCookie(UserCookiePass);
+                            FlashMessage.Confirmation("Successfully logged in.");
+                            return RedirectToAction("GraduateProfile", "Graduate");
 
-                //IF USERNAME AND PASSWORD IS CORRECT
-                if (user != null)
-                {
-                    HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
-                    HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
-                    UserCookie.Expires.AddMinutes(30);
-                    UserCookiePass.Expires.AddMinutes(30);
-                    HttpContext.Response.SetCookie(UserCookie);
-                    HttpContext.Response.SetCookie(UserCookiePass);
-                    FlashMessage.Confirmation("Successfully logged in.");
-                    return RedirectToAction("GraduateProfile", "Graduate"); 
-                    
-                }
-                //ELSE RETURN TO LOGIN FORM
-                else {
-                    return View();
-                }
+                        }
+                        //ELSE RETURN TO LOGIN FORM
+                        else
+                        {
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        FlashMessage.Info("Please wait for your verification. You will be notified via email when you are verified.");
+                        return RedirectToAction("GraduateProfile", "Graduate");
 
-            }
+                    }
+
+                }
             else if (db.Admins.Any(x => x.AdminID == username))
             {
                 Admin user = new Admin();

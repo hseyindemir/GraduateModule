@@ -80,61 +80,69 @@ namespace GraduateSoftware.Controllers
         public ActionResult Edit(string ID)
         {
             //USER CANNOT SEE THE EDIT PAGE OF OTHER USERS NOW
-            if (Request.Cookies["user"] != null && Request.Cookies["pass"] != null)
+            try
+            {
+                if (Request.Cookies["user"] != null && Request.Cookies["pass"] != null)
             {
                 Graduate graduate = db.Graduates.Where(x => x.StudentID == ID).FirstOrDefault();
-                if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == graduate.StudentID).IsVerified == true)
-                {
-
-
-                    if (ID == null)
+               
+                    if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == graduate.StudentID).IsVerified == true)
                     {
 
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                    }
-                    else if (graduate == null)
-                    {
+                        if (ID == null)
+                        {
 
-                        return HttpNotFound();
-                    }
-                    else if (Request.Cookies["user"].Value == graduate.StudentID && Request.Cookies["pass"].Value == graduate.StudentPassword)
-                    {
+                            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-                        //Pump->WorkAreaList
+                        }
+                        else if (graduate == null)
+                        {
 
-                        GraduateModel graduateModel = new GraduateModel();
-                        graduateModel.StudentID = graduate.StudentID;
-                        graduateModel.GraduateLastName = graduate.GraduateLastName;
-                        graduateModel.GraduateName = graduate.GraduateName;
-                        graduateModel.GraduateMail = graduate.GraduateMail;
-                        graduateModel.GraduateCompany = graduate.GraduateCompany;
-                        graduateModel.GraduateYear = graduate.GraduateYear;
-                        graduateModel.GraduateTitle = graduate.GraduateTitle;
-                        graduateModel.GraduatePhone = graduate.GraduatePhone;
-                        graduateModel.StudentPassword = graduate.StudentPassword;
-                        graduateModel.Alanlar = new SelectList(db.WorkAreas, "WAID", "WorkAreaName");
+                            return HttpNotFound();
+                        }
+                        else if (Request.Cookies["user"].Value == graduate.StudentID && Request.Cookies["pass"].Value == graduate.StudentPassword)
+                        {
+
+                            //Pump->WorkAreaList
+
+                            GraduateModel graduateModel = new GraduateModel();
+                            graduateModel.StudentID = graduate.StudentID;
+                            graduateModel.GraduateLastName = graduate.GraduateLastName;
+                            graduateModel.GraduateName = graduate.GraduateName;
+                            graduateModel.GraduateMail = graduate.GraduateMail;
+                            graduateModel.GraduateCompany = graduate.GraduateCompany;
+                            graduateModel.GraduateYear = graduate.GraduateYear;
+                            graduateModel.GraduateTitle = graduate.GraduateTitle;
+                            graduateModel.GraduatePhone = graduate.GraduatePhone;
+                            graduateModel.StudentPassword = graduate.StudentPassword;
+                            graduateModel.Alanlar = new SelectList(db.WorkAreas, "WAID", "WorkAreaName");
 
 
-                        FlashMessage.Confirmation("Update successful.");
-                        return View(graduateModel);
+                            FlashMessage.Confirmation("Update successful.");
+                            return View(graduateModel);
 
+                        }
+                        else
+                        {
+                            return RedirectToAction("GraduateProfile", "Graduate");
+                        }
                     }
                     else
                     {
+                        FlashMessage.Info("Please wait for your verification. You will be notified via email when you are verified.");
                         return RedirectToAction("GraduateProfile", "Graduate");
+
                     }
                 }
-                else
-                {
-                    FlashMessage.Info("Please wait for your verification. You will be notified via email when you are verified.");
-                    return RedirectToAction("GraduateProfile", "Graduate");
-
-                }
-            }
             else
             {
-                return RedirectToAction("Logout", "Home");
+                    return RedirectToAction("Logout", "Home");
+                }
+            }
+            catch
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
         [HttpPost]

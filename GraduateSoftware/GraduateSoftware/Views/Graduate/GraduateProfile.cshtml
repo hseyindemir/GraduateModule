@@ -72,9 +72,10 @@
                 @Html.DisplayFor(modelItem => item.WorkAreaDetail.WorkAreaDetailName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.StudentID })
+                <a id="edit" href="#" onclick="window.location.replace('/Graduate/Edit/@item.StudentID/');">Edit</a>
             </td>
         </tr>
+        
     }
 
 </table>

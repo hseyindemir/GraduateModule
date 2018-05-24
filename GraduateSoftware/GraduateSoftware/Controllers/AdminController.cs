@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using GraduateSoftware.Models;
 using Vereyon.Web;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace GraduateSoftware.Controllers
 {
@@ -51,6 +52,17 @@ namespace GraduateSoftware.Controllers
                         newVerification.IsVerified = true;
                         db.Entry(newVerification).State = EntityState.Modified;
                         db.SaveChanges();
+
+                        //SEND EMAIL
+                        //SmtpClient client = new SmtpClient("some.server.com");
+                        //client.Credentials = new NetworkCredential("username", "password");
+                        //MailMessage mailMessage = new MailMessage();
+                        //mailMessage.From = "asdasd@gmail.com";
+                        //mailMessage.To.Add("someone.else@somewhere-else.com");
+                        //mailMessage.Subject = "Hello There";
+                        //mailMessage.Body = "Hello my friend!";
+                        //client.Send(mailMessage);
+
                         return new EmptyResult();
 
                     }

@@ -23,16 +23,19 @@
     if (item.StudentID != null)
     {
 
+        
+        
 
         <hr />
-        <div id="mainFrame" class="form-horizontal container">
+
+        <div id="mainFrame-@i" class="form-horizontal container table-bordered">
             <h4></h4>
 
 
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10 form-inline">
-                    @Html.DisplayFor(modelItem => item.StudentID)
+                    <h4 style="margin-bottom:-10%;"> @Html.DisplayFor(modelItem => item.StudentID) </h4>
                     <div style="float:right;" data-index="@i">
                         <input id="accept" type="submit" name="verify" value="Accept" class="btn btn-success accept" />
                         <input id="reject" type="submit" name="verify" value="Reject" class="btn btn-danger reject" />
@@ -48,12 +51,14 @@
     }
 
 }
+
 @if (studentidList.Count() == 0)
 {
     <hr />
     <h3>There is no graduate application right now.</h3>
 }
 @Html.ActionLink("Graduate List", "AdminGraduateDetails")
+    <hr />
 <script>
     $(document).ready(function () {
 
@@ -66,15 +71,16 @@
 
 
         console.log(newStuArray);
-    $(".accept").on("click", function () {
+        $(".accept").on("click", function () {
+            $("mainFrame-" + index).show();
         var index = $(this).closest('div').data('index');
         console.log(index+"dfgdfgd");
         $.ajax({
             type: "POST",
             url: '/Admin/Index',
-            data: {studentid:newStuArray[index],verify:"Accept"},
+            data: { studentid: newStuArray[index], verify: "Accept" },
             success: function (resultData) {
-
+               // $("mainFrame-" + index).hide();
                 console.log("posted");
             }
         });
