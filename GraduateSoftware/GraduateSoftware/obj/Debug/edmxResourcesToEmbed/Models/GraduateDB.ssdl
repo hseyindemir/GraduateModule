@@ -1,46 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Alias="Self" Namespace="GraduateModuleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012">
   <EntityType Name="AdminGraduateVerification">
     <Key>
       <PropertyRef Name="VerificationID" />
     </Key>
-    <Property Name="VerificationID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VerificationID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
     <Property Name="IsVerified" Type="bit" />
-    <Property Name="AdminID" Type="nvarchar" MaxLength="50" />
-    <Property Name="StudentID" Type="nvarchar" MaxLength="50" />
+    <Property Name="AdminID" MaxLength="50" Type="nvarchar" />
+    <Property Name="StudentID" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduateName" MaxLength="50" Type="nvarchar" />
+    <Property Name="GrauateSurname" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduateEmail" MaxLength="50" Type="nvarchar" />
   </EntityType>
   <EntityType Name="Admins">
     <Key>
       <PropertyRef Name="AdminID" />
     </Key>
-    <Property Name="AdminID" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="AdminName" Type="nvarchar" MaxLength="50" />
-    <Property Name="AdminLastName" Type="nvarchar" MaxLength="50" />
-    <Property Name="AdminPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminID" Nullable="false" MaxLength="50" Type="nvarchar" />
+    <Property Name="AdminName" MaxLength="50" Type="nvarchar" />
+    <Property Name="AdminLastName" MaxLength="50" Type="nvarchar" />
+    <Property Name="AdminPassword" Nullable="false" MaxLength="50" Type="nvarchar" />
   </EntityType>
   <EntityType Name="Graduates">
     <Key>
       <PropertyRef Name="StudentID" />
     </Key>
-    <Property Name="StudentID" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="GraduateName" Type="nvarchar" MaxLength="50" />
-    <Property Name="GraduateLastName" Type="nvarchar" MaxLength="50" />
+    <Property Name="StudentID" Nullable="false" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduateName" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduateLastName" MaxLength="50" Type="nvarchar" />
     <Property Name="GraduateYear" Type="int" />
     <Property Name="WorkAreaID" Type="int" />
     <Property Name="WorkAreaDetailID" Type="int" />
-    <Property Name="GraduateCompany" Type="nvarchar" MaxLength="100" />
-    <Property Name="GraduateTitle" Type="nvarchar" MaxLength="50" />
-    <Property Name="GraduateMail" Type="nvarchar" MaxLength="50" />
-    <Property Name="GraduatePhone" Type="nvarchar" MaxLength="50" />
-    <Property Name="StudentPassword" Type="nvarchar" MaxLength="100" />
+    <Property Name="GraduateCompany" MaxLength="100" Type="nvarchar" />
+    <Property Name="GraduateTitle" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduateMail" MaxLength="50" Type="nvarchar" />
+    <Property Name="GraduatePhone" MaxLength="50" Type="nvarchar" />
+    <Property Name="StudentPassword" MaxLength="100" Type="nvarchar" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
     </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Nullable="false" MaxLength="128" Type="nvarchar" />
+    <Property Name="principal_id" Nullable="false" Type="int" />
+    <Property Name="diagram_id" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
@@ -48,20 +51,20 @@
     <Key>
       <PropertyRef Name="WAID" />
     </Key>
-    <Property Name="WAID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="WorkAreaName" Type="nvarchar" MaxLength="50" />
+    <Property Name="WAID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="WorkAreaName" MaxLength="50" Type="nvarchar" />
   </EntityType>
   <EntityType Name="WorkAreaDetail">
     <Key>
       <PropertyRef Name="WADID" />
     </Key>
-    <Property Name="WADID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="WorkAreaDetailName" Type="nvarchar" MaxLength="50" />
+    <Property Name="WADID" Nullable="false" StoreGeneratedPattern="Identity" Type="int" />
+    <Property Name="WorkAreaDetailName" MaxLength="50" Type="nvarchar" />
     <Property Name="WorkAreaID" Type="int" />
   </EntityType>
-  <Association Name="FK__AdminGrad__Admin__628FA481">
-    <End Role="Admins" Type="Self.Admins" Multiplicity="0..1" />
-    <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+  <Association Name="FK__AdminGrad__Admin__6FE99F9F">
+    <End Type="Self.Admins" Multiplicity="0..1" Role="Admins" />
+    <End Type="Self.AdminGraduateVerification" Multiplicity="*" Role="AdminGraduateVerification" />
     <ReferentialConstraint>
       <Principal Role="Admins">
         <PropertyRef Name="AdminID" />
@@ -71,9 +74,9 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__AdminGrad__Stude__6383C8BA">
-    <End Role="Graduates" Type="Self.Graduates" Multiplicity="0..1" />
-    <End Role="AdminGraduateVerification" Type="Self.AdminGraduateVerification" Multiplicity="*" />
+  <Association Name="FK__AdminGrad__Stude__70DDC3D8">
+    <End Type="Self.Graduates" Multiplicity="0..1" Role="Graduates" />
+    <End Type="Self.AdminGraduateVerification" Multiplicity="*" Role="AdminGraduateVerification" />
     <ReferentialConstraint>
       <Principal Role="Graduates">
         <PropertyRef Name="StudentID" />
@@ -84,8 +87,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Graduates__WorkA__3C69FB99">
-    <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
-    <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
+    <End Type="Self.WorkArea" Multiplicity="0..1" Role="WorkArea" />
+    <End Type="Self.Graduates" Multiplicity="*" Role="Graduates" />
     <ReferentialConstraint>
       <Principal Role="WorkArea">
         <PropertyRef Name="WAID" />
@@ -96,8 +99,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Graduates__WorkA__3D5E1FD2">
-    <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="0..1" />
-    <End Role="Graduates" Type="Self.Graduates" Multiplicity="*" />
+    <End Type="Self.WorkAreaDetail" Multiplicity="0..1" Role="WorkAreaDetail" />
+    <End Type="Self.Graduates" Multiplicity="*" Role="Graduates" />
     <ReferentialConstraint>
       <Principal Role="WorkAreaDetail">
         <PropertyRef Name="WADID" />
@@ -108,8 +111,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__WorkAreaD__WorkA__398D8EEE">
-    <End Role="WorkArea" Type="Self.WorkArea" Multiplicity="0..1" />
-    <End Role="WorkAreaDetail" Type="Self.WorkAreaDetail" Multiplicity="*" />
+    <End Type="Self.WorkArea" Multiplicity="0..1" Role="WorkArea" />
+    <End Type="Self.WorkAreaDetail" Multiplicity="*" Role="WorkAreaDetail" />
     <ReferentialConstraint>
       <Principal Role="WorkArea">
         <PropertyRef Name="WAID" />
@@ -126,25 +129,25 @@
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkArea" EntityType="Self.WorkArea" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="WorkAreaDetail" EntityType="Self.WorkAreaDetail" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="Self.FK__AdminGrad__Admin__628FA481">
-      <End Role="Admins" EntitySet="Admins" />
-      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+    <AssociationSet Name="FK__AdminGrad__Admin__6FE99F9F" Association="Self.FK__AdminGrad__Admin__6FE99F9F">
+      <End EntitySet="Admins" Role="Admins" />
+      <End EntitySet="AdminGraduateVerification" Role="AdminGraduateVerification" />
     </AssociationSet>
-    <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="Self.FK__AdminGrad__Stude__6383C8BA">
-      <End Role="Graduates" EntitySet="Graduates" />
-      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerification" />
+    <AssociationSet Name="FK__AdminGrad__Stude__70DDC3D8" Association="Self.FK__AdminGrad__Stude__70DDC3D8">
+      <End EntitySet="Graduates" Role="Graduates" />
+      <End EntitySet="AdminGraduateVerification" Role="AdminGraduateVerification" />
     </AssociationSet>
     <AssociationSet Name="FK__Graduates__WorkA__3C69FB99" Association="Self.FK__Graduates__WorkA__3C69FB99">
-      <End Role="WorkArea" EntitySet="WorkArea" />
-      <End Role="Graduates" EntitySet="Graduates" />
+      <End EntitySet="WorkArea" Role="WorkArea" />
+      <End EntitySet="Graduates" Role="Graduates" />
     </AssociationSet>
     <AssociationSet Name="FK__Graduates__WorkA__3D5E1FD2" Association="Self.FK__Graduates__WorkA__3D5E1FD2">
-      <End Role="WorkAreaDetail" EntitySet="WorkAreaDetail" />
-      <End Role="Graduates" EntitySet="Graduates" />
+      <End EntitySet="WorkAreaDetail" Role="WorkAreaDetail" />
+      <End EntitySet="Graduates" Role="Graduates" />
     </AssociationSet>
     <AssociationSet Name="FK__WorkAreaD__WorkA__398D8EEE" Association="Self.FK__WorkAreaD__WorkA__398D8EEE">
-      <End Role="WorkArea" EntitySet="WorkArea" />
-      <End Role="WorkAreaDetail" EntitySet="WorkAreaDetail" />
+      <End EntitySet="WorkArea" Role="WorkArea" />
+      <End EntitySet="WorkAreaDetail" Role="WorkAreaDetail" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

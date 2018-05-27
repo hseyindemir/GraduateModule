@@ -21,19 +21,14 @@ namespace GraduateSoftware.Controllers
         public ActionResult Index()
         {
             var adminGraduateVerifications = db.AdminGraduateVerifications.Where(x => x.IsVerified == false);
-            //if (adminGraduateVerifications != null)
-            //{
+            
                 foreach (var item in adminGraduateVerifications.ToList())
                 {
                     Debug.WriteLine(item.StudentID);
                 }
                 
                 return View(adminGraduateVerifications.ToList());
-           // }
-           // else
-            //{
-               // return View();
-           // }
+           
         }
 
         [HttpPost]
@@ -54,6 +49,7 @@ namespace GraduateSoftware.Controllers
                         db.SaveChanges();
 
                         //SEND EMAIL
+
                         //SmtpClient client = new SmtpClient("some.server.com");
                         //client.Credentials = new NetworkCredential("username", "password");
                         //MailMessage mailMessage = new MailMessage();
@@ -70,8 +66,9 @@ namespace GraduateSoftware.Controllers
                     {
                         var admin = db.Admins.Where(x => x.AdminID == user && x.AdminPassword == pass).FirstOrDefault();
                         var newVerification = db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == studentid && x.AdminID == admin.AdminID);
-                        newVerification.IsVerified = false;
-                        db.Entry(newVerification).State = EntityState.Modified;
+                        //newVerification.IsVerified = false;
+                        //db.Entry(newVerification).State = EntityState.Modified;
+                        db.AdminGraduateVerifications.Remove(newVerification);
                         var deletedUser = db.Graduates.SingleOrDefault(x => x.StudentID == studentid);
                         db.Graduates.Remove(deletedUser);
                         db.SaveChanges();

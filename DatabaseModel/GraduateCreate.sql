@@ -2,6 +2,7 @@ Create Table Graduates
 
 (
 StudentID nvarchar(50) NOT NULL,
+StudentPassword nvarchar(100) NOT NULL,
 GraduateName nvarchar(50),
 GraduateLastName nvarchar(50),
 GraduateYear int,
@@ -22,7 +23,7 @@ Create Table Admins
 AdminID nvarchar(50) NOT NULL,
 AdminName nvarchar(50),
 AdminLastName nvarchar(50),
-AdminPassword nvarchar(50) NOT NULL,
+AdminPassword nvarchar(100) NOT NULL,
 PRIMARY KEY(AdminID)
 
 )
@@ -34,7 +35,13 @@ VerificationID int IDENTITY(1,1),
 IsVerified bit,
 AdminID nvarchar(50),
 StudentID nvarchar(50),
+GraduateName nvarchar(50),
+GrauateSurname nvarchar(50),
+GraduateEmail nvarchar(50),
 PRIMARY KEY(VerificationID),
 FOREIGN KEY (AdminID) REFERENCES Admins(AdminID),
 FOREIGN KEY (StudentID) REFERENCES Graduates(StudentID)
 )
+
+drop Table Graduates
+

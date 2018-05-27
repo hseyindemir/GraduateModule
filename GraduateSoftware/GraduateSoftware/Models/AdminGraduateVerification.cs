@@ -11,13 +11,34 @@ namespace GraduateSoftware.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class AdminGraduateVerification
     {
         public int VerificationID { get; set; }
         public Nullable<bool> IsVerified { get; set; }
         public string AdminID { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "* A valid student id is required.")]
+        [Display(Name = "Student ID")]
         public string StudentID { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "* A valid first name is required.")]
+        [Display(Name = "First Name")]
+        public string GraduateName { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "* A valid last name is required.")]
+        [Display(Name = "Last Name")]
+        public string GrauateSurname { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        [EmailAddress(ErrorMessage = "* A valid email address is required.")]
+        [Display(Name = "Email")]
+        public string GraduateEmail { get; set; }
     
         public virtual Admin Admin { get; set; }
         public virtual Graduate Graduate { get; set; }

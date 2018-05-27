@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Security.Cryptography;
 using Vereyon.Web;
+using Newtonsoft.Json;
 
 namespace GraduateSoftware.Controllers
 {
@@ -22,9 +23,9 @@ namespace GraduateSoftware.Controllers
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            if ( filterContext.HttpContext.Request.RawUrl != "/Home/Logout")
+            if (filterContext.HttpContext.Request.RawUrl != "/Home/Logout")
             {
-               
+
                 var sessionCookie = Request.Cookies["user"];
                 var sessionCookie2 = Request.Cookies["pass"];
 
@@ -56,121 +57,104 @@ namespace GraduateSoftware.Controllers
             }
             return hash.ToString();
         }
-
-        bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        
 
         [HttpGet]
         public ActionResult Index()
         {
-            
+
             var sessionCookie = Request.Cookies["user"];
             var sessionCookie2 = Request.Cookies["pass"];
             if (sessionCookie != null && sessionCookie2 != null)
             {
                 if (db.Admins.Any(x => x.AdminID == sessionCookie.Value))
                 {
-                     return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "Admin");
                 }
                 else
                 {
                     return RedirectToAction("GraduateProfile", "Graduate");
                 }
-                }
-        
-           
-            
+            }
+
+
+
             return View();
         }
-        
+
         //HANDLES LOGIN
 
         [HttpPost]
         public ActionResult Index(string username, string password)
         {
             var hashedPass = sha256(password);
-            
-            if (!db.Graduates.Any(x => x.StudentID == username) && !db.Admins.Any(x => x.AdminID == username) && IsValidEmail(username) && password.Length>5)
+            var verifiedCaptcha = false;
+             if (db.Graduates.Any(x => x.StudentID == username))
             {
-                //CREATE USER IF THE USER DOES NOT EXIST AND REDIRECT TO PROFILE
-                
-                Debug.WriteLine("Creating User: " + username + password);
-                Graduate graduate = new Graduate();
-                graduate.StudentID = username;
-                graduate.StudentPassword = hashedPass;
-                db.Graduates.Add(graduate);
+                //reCaptcha SERVER SIDE CODE FOR FUTURE DEVELOPMENT
 
-                AdminGraduateVerification graduateV = new AdminGraduateVerification();
-                graduateV.IsVerified = false;
-                graduateV.AdminID = db.Admins.SingleOrDefault().AdminID;
-                graduateV.StudentID = username;
-                db.AdminGraduateVerifications.Add(graduateV);
+                //var response = Request["g-recaptcha-response"];
+                //
+                //const string secret = "6LdNt1sUAAAAAKE1GejVUSIdS-PlFVMj82aWq3y_";
 
-                db.SaveChanges();
-                //setting cookies
-                //HttpCookie UserCookie = new HttpCookie("user", graduate.StudentID.ToString());
-                //HttpCookie UserCookiePass = new HttpCookie("pass", graduate.StudentPassword.ToString());
-                //UserCookie.Expires.AddMinutes(30);
-                //UserCookiePass.Expires.AddMinutes(30);
-                //HttpContext.Response.SetCookie(UserCookie);
-                //HttpContext.Response.SetCookie(UserCookiePass);
+                //var client = new WebClient();
+                //var reply =
+                //    client.DownloadString(
+                //        string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",
+                //    secret, response));
 
-                FlashMessage.Info("Successfully registered. Please wait for your verification. You will be notified via email in 7 days when you are verified.");
-                return RedirectToAction("Index", "Home");
-            }
-            else if (db.Graduates.Any(x => x.StudentID == username))
-            {
+                //var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
 
-                 
-
+                //
+                //if (captchaResponse.Success!="True")
+                //{
+                    
+                //    FlashMessage.Danger("Confirm that you are not a robot.");
+                //    return View();
+                //}
+                //else
+                //{
+                //    verifiedCaptcha = true;
+                //    ViewBag.Message = "Valid";
+                //}
                 //IF USER EXISTS
-                //SAVE ID TO COOKIES AND LOGIN
+                //SAVE ID PASS TO COOKIES AND LOGIN
 
                 Graduate user = new Graduate();
                 user = db.Graduates.Where(x => x.StudentID == username && x.StudentPassword == hashedPass).FirstOrDefault();
-                    if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == user.StudentID).IsVerified == true)
+                if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == user.StudentID).IsVerified == true)
+                {
+                    //IF USERNAME AND PASSWORD IS CORRECT
+                    if (user != null)
                     {
-                        //IF USERNAME AND PASSWORD IS CORRECT
-                        if (user != null)
-                        {
-                            HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
-                            HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
-                            UserCookie.Expires.AddMinutes(30);
-                            UserCookiePass.Expires.AddMinutes(30);
-                            HttpContext.Response.SetCookie(UserCookie);
-                            HttpContext.Response.SetCookie(UserCookiePass);
-                            FlashMessage.Confirmation("Successfully logged in.");
-                            return RedirectToAction("GraduateProfile", "Graduate");
-
-                        }
-                        //ELSE RETURN TO LOGIN FORM
-                        else
-                        {
-                            return View();
-                        }
-                    }
-                    else
-                    {
-                        FlashMessage.Info("Please wait for your verification. You will be notified via email when you are verified.");
+                        HttpCookie UserCookie = new HttpCookie("user", user.StudentID.ToString());
+                        HttpCookie UserCookiePass = new HttpCookie("pass", user.StudentPassword.ToString());
+                        UserCookie.Expires.AddMinutes(30);
+                        UserCookiePass.Expires.AddMinutes(30);
+                        HttpContext.Response.SetCookie(UserCookie);
+                        HttpContext.Response.SetCookie(UserCookiePass);
+                        FlashMessage.Confirmation("Successfully logged in.");
                         return RedirectToAction("GraduateProfile", "Graduate");
 
                     }
+                    //ELSE RETURN TO LOGIN FORM
+                    else
+                    {
+                        return View();
+                    }
+                }
+                else
+                {
+                    FlashMessage.Info("Please wait for your verification. You will be notified via email when you are verified.");
+                    return RedirectToAction("GraduateProfile", "Graduate");
 
                 }
+
+            }
             else if (db.Admins.Any(x => x.AdminID == username))
             {
                 Admin user = new Admin();
-                user = db.Admins.Where(x => x.AdminID == username && x.AdminPassword == password).FirstOrDefault();
+                user = db.Admins.Where(x => x.AdminID == username && x.AdminPassword == hashedPass).FirstOrDefault();
 
                 //IF USERNAME AND PASSWORD IS CORRECT
                 if (user != null)
@@ -188,7 +172,7 @@ namespace GraduateSoftware.Controllers
                 //ELSE RETURN TO LOGIN FORM
                 else
                 {
-                    
+
                     return View();
                 }
             }
@@ -223,17 +207,66 @@ namespace GraduateSoftware.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register([Bind(Include = "VerificationID,StudentID,Password,GraduateName,GrauateSurname,GraduateEmail")] AdminGraduateVerification adminGraduateVerification, string password)
+        {
+            var hashedPass = sha256(password);
+            if (ModelState.IsValid && password.Length>5)
+            {
+                if(db.Graduates.Any(x => x.StudentID == adminGraduateVerification.StudentID))
+                {
+                    FlashMessage.Danger("An account with the same Student ID already exists. Please contact the head of the department.");
+                    return RedirectToAction("Register", "Home");
+                }
+                Debug.WriteLine("Creating User: " + adminGraduateVerification.GraduateEmail + hashedPass);
+                Graduate graduate = new Graduate();
+                graduate.StudentID = adminGraduateVerification.StudentID;
+                graduate.GraduateName = adminGraduateVerification.GraduateName;
+                graduate.GraduateLastName = adminGraduateVerification.GrauateSurname;
+                graduate.GraduateMail = adminGraduateVerification.GraduateEmail;
+                graduate.StudentPassword = hashedPass;
+                db.Graduates.Add(graduate);
+
+                AdminGraduateVerification graduateV = new AdminGraduateVerification();
+                graduateV.IsVerified = false;
+                graduateV.AdminID = db.Admins.SingleOrDefault().AdminID;
+                graduateV.StudentID = adminGraduateVerification.StudentID;
+                graduateV.GraduateName = adminGraduateVerification.GraduateName;
+                graduateV.GrauateSurname = adminGraduateVerification.GrauateSurname;
+                graduateV.GraduateEmail = adminGraduateVerification.GraduateEmail;
+                db.AdminGraduateVerifications.Add(graduateV);
+
+                db.SaveChanges();
+
+                FlashMessage.Info("Successfully registered. Please wait for your verification. You will be notified via email in 7 days when you are verified.");
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                FlashMessage.Danger("Failed to register user. Please check your information.");
+                return View(adminGraduateVerification);
+            }
+        }
+
         public ActionResult Logout()
         {
-            
-            try { 
+
+            try
+            {
                 var Cookie1 = Request.Cookies["user"];
                 var Cookie2 = Request.Cookies["pass"];
-                
-                    Cookie1.Expires = DateTime.Now.AddDays(-1);
-                    Cookie2.Expires = DateTime.Now.AddDays(-1);
-                    Response.SetCookie(Cookie1);
-                    Response.SetCookie(Cookie2);
+
+                Cookie1.Expires = DateTime.Now.AddDays(-1);
+                Cookie2.Expires = DateTime.Now.AddDays(-1);
+                Response.SetCookie(Cookie1);
+                Response.SetCookie(Cookie2);
 
                 Debug.WriteLine("LOGGED OUT");
                 FlashMessage.Confirmation("Successfully logged out.");
@@ -248,7 +281,7 @@ namespace GraduateSoftware.Controllers
 
 
         }
-        
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

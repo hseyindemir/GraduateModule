@@ -104,24 +104,27 @@
     <EntitySet Name="AdminGraduateVerifications" EntityType="GraduateModuleModel.AdminGraduateVerification" />
     <EntitySet Name="Admins" EntityType="GraduateModuleModel.Admin" />
     <AssociationSet Name="FK__AdminGrad__Admin__628FA481" Association="GraduateModuleModel.FK__AdminGrad__Admin__628FA481">
-      <End Role="Admin" EntitySet="Admins" />
-      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+      <End EntitySet="Admins" Role="Admin" />
+      <End EntitySet="AdminGraduateVerifications" Role="AdminGraduateVerification" />
     </AssociationSet>
     <AssociationSet Name="FK__AdminGrad__Stude__6383C8BA" Association="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA">
-      <End Role="Graduate" EntitySet="Graduates" />
-      <End Role="AdminGraduateVerification" EntitySet="AdminGraduateVerifications" />
+      <End EntitySet="Graduates" Role="Graduate" />
+      <End EntitySet="AdminGraduateVerifications" Role="AdminGraduateVerification" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="AdminGraduateVerification">
     <Key>
       <PropertyRef Name="VerificationID" />
     </Key>
-    <Property Name="VerificationID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="VerificationID" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
     <Property Name="IsVerified" Type="Boolean" />
-    <Property Name="AdminID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="StudentID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AdminID" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="StudentID" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
     <NavigationProperty Name="Admin" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="AdminGraduateVerification" ToRole="Admin" />
     <NavigationProperty Name="Graduate" Relationship="GraduateModuleModel.FK__AdminGrad__Stude__6383C8BA" FromRole="AdminGraduateVerification" ToRole="Graduate" />
+    <Property Name="GraduateName" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="GrauateSurname" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
+    <Property Name="GraduateEmail" MaxLength="50" FixedLength="false" Unicode="true" Type="String" />
   </EntityType>
   <EntityType Name="Admin">
     <Key>
@@ -134,8 +137,8 @@
     <NavigationProperty Name="AdminGraduateVerifications" Relationship="GraduateModuleModel.FK__AdminGrad__Admin__628FA481" FromRole="Admin" ToRole="AdminGraduateVerification" />
   </EntityType>
   <Association Name="FK__AdminGrad__Admin__628FA481">
-    <End Type="GraduateModuleModel.Admin" Role="Admin" Multiplicity="0..1" />
-    <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+    <End Type="GraduateModuleModel.Admin" Multiplicity="0..1" Role="Admin" />
+    <End Type="GraduateModuleModel.AdminGraduateVerification" Multiplicity="*" Role="AdminGraduateVerification" />
     <ReferentialConstraint>
       <Principal Role="Admin">
         <PropertyRef Name="AdminID" />
@@ -146,8 +149,8 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__AdminGrad__Stude__6383C8BA">
-    <End Type="GraduateModuleModel.Graduate" Role="Graduate" Multiplicity="0..1" />
-    <End Type="GraduateModuleModel.AdminGraduateVerification" Role="AdminGraduateVerification" Multiplicity="*" />
+    <End Type="GraduateModuleModel.Graduate" Multiplicity="0..1" Role="Graduate" />
+    <End Type="GraduateModuleModel.AdminGraduateVerification" Multiplicity="*" Role="AdminGraduateVerification" />
     <ReferentialConstraint>
       <Principal Role="Graduate">
         <PropertyRef Name="StudentID" />

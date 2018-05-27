@@ -1,55 +1,27 @@
-﻿.glyphicon {
-    margin-right: 5px;
+﻿.glyphicon-lg {
+    font-size: 4em
 }
 
-.thumbnail {
-    margin-bottom: 20px;
-    padding: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+.info-block {
+    border-right: 5px solid #E6E6E6;
+    margin-bottom: 25px
 }
 
-.item.list-group-item {
-    float: none;
-    width: 100%;
-    background-color: #fff;
-    margin-bottom: 10px;
+.info-block .square-box {
+        width: 100px;
+        min-height: 110px;
+        margin-right: 22px;
+        text-align: center !important;
+        background-color: #676767;
+        padding: 20px 0
+
 }
 
-    .item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
-        background: #428bca;
-    }
+.info-block.block-info {
+        border-color: #20819e
+}
 
-    .item.list-group-item .list-group-image {
-        margin-right: 10px;
-    }
-
-    .item.list-group-item .thumbnail {
-        margin-bottom: 0px;
-    }
-
-    .item.list-group-item .caption {
-        padding: 9px 9px 0px 9px;
-    }
-
-    .item.list-group-item:nth-of-type(odd) {
-        background: #eeeeee;
-    }
-
-    .item.list-group-item:before, .item.list-group-item:after {
-        display: table;
-        content: " ";
-    }
-
-    .item.list-group-item img {
-        float: left;
-    }
-
-    .item.list-group-item:after {
-        clear: both;
-    }
-
-.list-group-item-text {
-    margin: 0 0 11px;
+.info-block.block-info .square-box {
+            background-color: #20819e;
+            color: #FFF
 }

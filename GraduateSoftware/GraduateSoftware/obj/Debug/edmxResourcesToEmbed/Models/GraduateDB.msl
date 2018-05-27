@@ -49,6 +49,9 @@
     <EntitySetMapping Name="AdminGraduateVerifications">
       <EntityTypeMapping TypeName="GraduateModuleModel.AdminGraduateVerification">
         <MappingFragment StoreEntitySet="AdminGraduateVerification">
+          <ScalarProperty Name="GraduateEmail" ColumnName="GraduateEmail" />
+          <ScalarProperty Name="GrauateSurname" ColumnName="GrauateSurname" />
+          <ScalarProperty Name="GraduateName" ColumnName="GraduateName" />
           <ScalarProperty Name="StudentID" ColumnName="StudentID" />
           <ScalarProperty Name="AdminID" ColumnName="AdminID" />
           <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
