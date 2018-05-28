@@ -20,15 +20,16 @@ namespace GraduateSoftware.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+
             var adminGraduateVerifications = db.AdminGraduateVerifications.Where(x => x.IsVerified == false);
-            
-                foreach (var item in adminGraduateVerifications.ToList())
-                {
-                    Debug.WriteLine(item.StudentID);
-                }
-                
-                return View(adminGraduateVerifications.ToList());
-           
+
+            foreach (var item in adminGraduateVerifications.ToList())
+            {
+                Debug.WriteLine(item.StudentID);
+            }
+
+            return View(adminGraduateVerifications.ToList());
+
         }
 
         [HttpPost]
@@ -50,14 +51,14 @@ namespace GraduateSoftware.Controllers
 
                         //SEND EMAIL
 
-                        //SmtpClient client = new SmtpClient("some.server.com");
-                        //client.Credentials = new NetworkCredential("username", "password");
-                        //MailMessage mailMessage = new MailMessage();
-                        //mailMessage.From = "asdasd@gmail.com";
-                        //mailMessage.To.Add("someone.else@somewhere-else.com");
-                        //mailMessage.Subject = "Hello There";
-                        //mailMessage.Body = "Hello my friend!";
-                        //client.Send(mailMessage);
+                        SmtpClient client = new SmtpClient("atmaca.cc.boun.edu.tr");
+                        client.Credentials = new System.Net.NetworkCredential("cet", "4M36xo");
+                        MailMessage mailMessage = new MailMessage();
+                        mailMessage.From = new MailAddress("graduate-cet@boun.edu.tr");
+                        mailMessage.To.Add(newVerification.GraduateEmail);
+                        mailMessage.Subject = "Cet Graduate Application";
+                        mailMessage.Body = "Your application is APPROVED. You have to edit your information to complete your registration. Please go to: " + HttpContext.Request.Url.GetLeftPart(UriPartial.Authority);
+                        client.Send(mailMessage);
 
                         return new EmptyResult();
 
@@ -66,12 +67,21 @@ namespace GraduateSoftware.Controllers
                     {
                         var admin = db.Admins.Where(x => x.AdminID == user && x.AdminPassword == pass).FirstOrDefault();
                         var newVerification = db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == studentid && x.AdminID == admin.AdminID);
-                        //newVerification.IsVerified = false;
-                        //db.Entry(newVerification).State = EntityState.Modified;
+
                         db.AdminGraduateVerifications.Remove(newVerification);
                         var deletedUser = db.Graduates.SingleOrDefault(x => x.StudentID == studentid);
                         db.Graduates.Remove(deletedUser);
                         db.SaveChanges();
+
+                        SmtpClient client = new SmtpClient("atmaca.cc.boun.edu.tr");
+                        client.Credentials = new System.Net.NetworkCredential("cet", "4M36xo");
+                        MailMessage mailMessage = new MailMessage();
+                        mailMessage.From = new MailAddress("graduate-cet@boun.edu.tr");
+                        mailMessage.To.Add(newVerification.GraduateEmail);
+                        mailMessage.Subject = "Cet Graduate Application";
+                        mailMessage.Body = "Your application is REJECTED. If you think this is a mistake please contact the head of the department.";
+                        client.Send(mailMessage);
+
                         return new EmptyResult();
                     }
 
@@ -88,21 +98,21 @@ namespace GraduateSoftware.Controllers
 
         public ActionResult AdminGraduateDetails()
         {
-            
+
             var graduates = db.Graduates;
             var adminGraduate = db.AdminGraduateVerifications.Where(x => x.IsVerified == true);
 
             List<Graduate> graduateList = new List<Graduate>();
             foreach (var item in adminGraduate.ToList())
             {
-                var newGraduate=db.Graduates.FirstOrDefault(x => x.StudentID == item.StudentID);
+                var newGraduate = db.Graduates.FirstOrDefault(x => x.StudentID == item.StudentID);
                 graduateList.Add(newGraduate);
             }
-            
+
 
 
             return View(graduateList);
-            
+
         }
 
         // GET: Admin/Details/5

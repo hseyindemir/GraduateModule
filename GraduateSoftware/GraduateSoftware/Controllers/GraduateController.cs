@@ -83,9 +83,9 @@ namespace GraduateSoftware.Controllers
             try
             {
                 if (Request.Cookies["user"] != null && Request.Cookies["pass"] != null)
-            {
-                Graduate graduate = db.Graduates.Where(x => x.StudentID == ID).FirstOrDefault();
-               
+                {
+                    Graduate graduate = db.Graduates.Where(x => x.StudentID == ID).FirstOrDefault();
+
                     if (db.AdminGraduateVerifications.SingleOrDefault(x => x.StudentID == graduate.StudentID).IsVerified == true)
                     {
 
@@ -135,8 +135,8 @@ namespace GraduateSoftware.Controllers
 
                     }
                 }
-            else
-            {
+                else
+                {
                     return RedirectToAction("Logout", "Home");
                 }
             }

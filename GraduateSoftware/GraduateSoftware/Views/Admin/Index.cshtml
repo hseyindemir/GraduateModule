@@ -113,7 +113,7 @@
             data: { studentid: newStuArray[index], verify: "Accept" },
             success: function (resultData) {
                 
-                $("#mainFrame-0").fadeOut("slow");
+                $("#mainFrame-"+index).fadeOut("slow");
                 console.log("posted");
             },
             error: function () {

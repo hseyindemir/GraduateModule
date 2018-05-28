@@ -57,7 +57,7 @@ namespace GraduateSoftware.Controllers
             }
             return hash.ToString();
         }
-        
+
 
         [HttpGet]
         public ActionResult Index()
@@ -89,7 +89,7 @@ namespace GraduateSoftware.Controllers
         {
             var hashedPass = sha256(password);
             var verifiedCaptcha = false;
-             if (db.Graduates.Any(x => x.StudentID == username))
+            if (db.Graduates.Any(x => x.StudentID == username))
             {
                 //reCaptcha SERVER SIDE CODE FOR FUTURE DEVELOPMENT
 
@@ -108,7 +108,7 @@ namespace GraduateSoftware.Controllers
                 //
                 //if (captchaResponse.Success!="True")
                 //{
-                    
+
                 //    FlashMessage.Danger("Confirm that you are not a robot.");
                 //    return View();
                 //}
@@ -218,9 +218,9 @@ namespace GraduateSoftware.Controllers
         public ActionResult Register([Bind(Include = "VerificationID,StudentID,Password,GraduateName,GrauateSurname,GraduateEmail")] AdminGraduateVerification adminGraduateVerification, string password)
         {
             var hashedPass = sha256(password);
-            if (ModelState.IsValid && password.Length>5)
+            if (ModelState.IsValid && password.Length > 5)
             {
-                if(db.Graduates.Any(x => x.StudentID == adminGraduateVerification.StudentID))
+                if (db.Graduates.Any(x => x.StudentID == adminGraduateVerification.StudentID))
                 {
                     FlashMessage.Danger("An account with the same Student ID already exists. Please contact the head of the department.");
                     return RedirectToAction("Register", "Home");
