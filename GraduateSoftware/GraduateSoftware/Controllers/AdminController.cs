@@ -51,14 +51,7 @@ namespace GraduateSoftware.Controllers
 
                         //SEND EMAIL
 
-                        SmtpClient client = new SmtpClient("atmaca.cc.boun.edu.tr");
-                        client.Credentials = new System.Net.NetworkCredential("cet", "4M36xo");
-                        MailMessage mailMessage = new MailMessage();
-                        mailMessage.From = new MailAddress("graduate-cet@boun.edu.tr");
-                        mailMessage.To.Add(newVerification.GraduateEmail);
-                        mailMessage.Subject = "Cet Graduate Application";
-                        mailMessage.Body = "Your application is APPROVED. You have to edit your information to complete your registration. Please go to: " + HttpContext.Request.Url.GetLeftPart(UriPartial.Authority);
-                        client.Send(mailMessage);
+                        
 
                         return new EmptyResult();
 
@@ -73,14 +66,7 @@ namespace GraduateSoftware.Controllers
                         db.Graduates.Remove(deletedUser);
                         db.SaveChanges();
 
-                        SmtpClient client = new SmtpClient("atmaca.cc.boun.edu.tr");
-                        client.Credentials = new System.Net.NetworkCredential("cet", "4M36xo");
-                        MailMessage mailMessage = new MailMessage();
-                        mailMessage.From = new MailAddress("graduate-cet@boun.edu.tr");
-                        mailMessage.To.Add(newVerification.GraduateEmail);
-                        mailMessage.Subject = "Cet Graduate Application";
-                        mailMessage.Body = "Your application is REJECTED. If you think this is a mistake please contact the head of the department.";
-                        client.Send(mailMessage);
+                        
 
                         return new EmptyResult();
                     }
